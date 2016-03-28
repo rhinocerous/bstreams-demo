@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+</head>
+<body>
+   
+    <div class="row">
+        <div class="col-md-12">
+            <!-- begin panel -->
+            <div class="panel">
+                <div class="panel-heading">
+                    <h4 class="panel-title">News Article Index &nbsp;&nbsp;&nbsp;<span><a href="../news/manage#/createArticle" type="button" class="addArticle btn pure-button-primary">Add New Article</a></span></h4>
+                </div>
+                <div class="table-responsive">
+                    <table id="faqTable" class="table table-bordered table-hover table-striped table-td-valign-middle">
+                        <thead>
+                            <tr class="inverse">
+                                <th class="text-center">News Id</th>
+                                <th class="text-center">Title</th>
+                                <th class="text-center">Text</th>
+                                <th class="text-center">User Id</th>
+                                <th class="text-center">Created</th>
+                                <th class="text-center">Source URL</th>
+                                <th class="text-center">Thumbnail</th>
+                                <th class="text-center">Highlight</th>
+                                <th class="text-center">Copy</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr id="template" data-ng-repeat="news in liveCtr.items track by news.newsId">
+                                <td class="faqIdColumn text-center">{{news.newsId}}</td>
+                                <td class="titleColumn text-center">{{news.title}}</td>
+                                <td class="textColumn text-center">{{news.text}}</td>
+                                <td class="categoryColumn text-center">{{news.userId}}</td>
+                                <td class="mediaColumn text-center">{{news.liveDate}}</td>
+                                <td class="seasonColumn text-center">{{news.sourceUrl}}</td>
+                                <td class="seasonColumn text-center">{{news.mediaThumbnail}}</td>
+                                <td class="seasonColumn text-center">{{news.mediaHighlight}}</td>
+                                <td class="seasonColumn text-center">{{news.mediaCopy}}</td>
+                                <td class="text-center EditColumn"><a href="/news/manage#/editArticle/{{news.newsId}}" class="editButton btn btn-default btn-xs btn-rounded p-l-10 p-r-10"><i class="fa fa-cog"></i> Edit</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- end panel -->
+        </div>
+    </div>
+</body>
+</html>

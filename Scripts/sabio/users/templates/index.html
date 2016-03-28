@@ -1,0 +1,369 @@
+﻿<style>
+    #panelHeading {
+        background-color: #EBECED;
+        height: 65px;
+    }
+
+    #searchParameterDiv {
+        border-right: 1px solid grey;
+        padding-left: 0px;
+    }
+
+    #searchParameter {
+        color: black;
+        width: 100%;
+    }
+
+    ::-webkit-input-placeholder::before {
+        font-family: fontAwesome;
+        content: '\f002  ';
+        color: #000000;
+    }
+
+    ::-moz-placeholder::before {
+        font-family: fontAwesome;
+        content: '\f002  ';
+        color: #000000;
+    }
+
+    :-ms-input-placeholder::before {
+        font-family: fontAwesome;
+        content: '\f002  ';
+        color: #000000;
+    }
+
+    input:-moz-placeholder::before {
+        font-family: fontAwesome;
+        content: '\f002  ';
+        color: #000000;
+    }
+
+    #dateParameterFilter {
+        color: black;
+        height: 32px;
+        margin-left: 1%;
+    }
+
+    #dateParameter {
+        color: black;
+        background-color: white;
+        height: 32px;
+        margin-left: 1%;
+    }
+
+    #itemsPerPageLabel {
+        color: black;
+        margin-top: 5px;
+        margin-right: 5px;
+    }
+
+    #itemsPerPage {
+        color: black;
+        height: 32px;
+    }
+
+    a {
+        color: #30373E;
+    }
+
+    a:focus, a:hover {
+        color: #30373E;
+        text-decoration: none;
+    }
+
+    .glyphicon {
+        font-size: 8px;
+    }
+
+    .table.table-bordered {
+        border: none;
+    }
+
+    #table {
+        background-color: rgba(0, 0, 0, 0.08);
+    }
+
+    .buttons {
+        background: #F9F9F9;
+    }
+
+    .pagination {
+        margin-bottom: 0;
+    }
+</style>
+
+<div>
+    <div class="panel">
+        <div id="panelHeading" class="panel-heading">
+            <form id="searchForm" name="indexBoard.formSearch">
+                <div class="search">
+                    <!-- searchParameter - begin -->
+                    <div id="searchParameterDiv" class="col-md-3">
+                        <input class="btn-sm"
+                           type="text"
+                           id="searchParameter"
+                           name="searchParameter"
+                           placeholder="Search..."
+                           data-ng-model="indexBoard.inputFormSearch.searchParameter" 
+                           data-ng-keyup="indexBoard.search()"/>
+                    </div>
+                    <!--
+                    data-ng-keyup="indexBoard.keyUpSearchParameter(indexBoard.inputFormSearch.searchParameter)    
+                    -->
+                    <!-- searchParameter - end -->
+                    <!-- itemsPerPage - begin -->
+                    <div>
+                        <select class="btn-sm pull-right"
+                                id="itemsPerPage"
+                                name="itemsPerPage"
+                                data-ng-model="indexBoard.inputFormSearch.itemsPerPage"
+                                data-ng-change="indexBoard.search()">
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="40">40</option>
+                            <option value="50">50</option>
+                            <option value="All">All</option>
+                        </select>
+                        <!-- 
+                        <pre>{{indexBoard.totalUsersRecords}}</pre>
+                        -->
+                    </div>
+                    <label class="pull-right" id="itemsPerPageLabel">Items per page:</label>
+                    <!-- itemsPerPage - end -->
+                    <!-- dateParameterFilter - begin -->
+                    <div>
+                        <select class="btn-sm pull-left"
+                                id="dateParameterFilter"
+                                name="dateParameterFilter"
+                                data-ng-model="indexBoard.dateParameterFilter"
+                                data-ng-change="indexBoard.changeDateParameterFilter()">
+                            <option value="DateExact">Date Exact</option>
+                            <option value="DateRange">Date Range</option>
+                        </select>
+                    </div>
+                    <!-- dateParameterFilter - end -->
+                    <!-- dateParameter - begin -->
+                    <div>
+                        <input class="btn-sm pull-left"
+                               type="date"
+                               id="dateParameter"
+                               name="dateParameter"
+                               data-ng-model="indexBoard.inputFormSearch.dateParameter"
+                               data-ng-change="indexBoard.convertDateParameter(indexBoard.inputFormSearch.dateParameter)"
+                               />
+                    </div>
+                    <!--
+                        data-ng-bind="indexBoard.formatDate(indexBoard.inputFormSearch.dateParameter) |  date:'MM/dd/yyyy'"
+                    -->
+                    <!-- dateParameter - end -->
+                    <!-- currentPage - begin -->
+                    <!-- 
+                     <input type="text"
+                           id="currentPage"
+                           name="currentPage"
+                           data-ng-model="indexBoard.inputFormSearch.currentPage"
+                           value="1" />
+                    <pre>{{indexBoard.inputFormSearch.currentPage}}</pre>                   
+                    -->
+                    <input type="hidden"
+                           id="currentPage"
+                           name="currentPage"
+                           data-ng-model="indexBoard.inputFormSearch.currentPage"
+                           value="1" />
+                    <!-- currentPage - end -->
+                    <!-- sort - columnName - begin -->
+                    <input type="hidden"
+                           id="columnName"
+                           name="columnName"
+                           data-ng-model="indexBoard.inputFormSearch.columnName"
+                           value="id" />
+                    <!-- sort - columnName - end -->
+                    <!-- sort - direction - begin -->
+                    <input type="hidden"
+                           id="direction"
+                           name="direction"
+                           data-ng-model="indexBoard.inputFormSearch.direction"
+                           value="asc" />
+                    <!-- sort - direction - end -->
+                </div>
+            </form>
+        </div>
+        <div class="panel-body">
+            <div class="ng-hide" data-ng-show="indexBoard.showNoRecordsMessage">
+                <h3>No records found.</h3>
+            </div>
+            <div class="table-responsive ng-hide" data-ng-show="indexBoard.showUsersRecords">
+                <table id="table" class="table table-bordered table-hover table-striped table-td-valign-middle">
+                    <thead>
+                        <tr class="inverse">
+                            <!-- id -->
+                            <th class="text-center">
+                                <a href="" data-ng-click="indexBoard.sort('id')">
+                                    Id
+                                    <i class="glyphicon sort-icon"
+                                       data-ng-hide="!indexBoard.tableHeaderNameId"
+                                       data-ng-class="{
+                                        'glyphicon-chevron-up':indexBoard.reverse,
+                                        'glyphicon-chevron-down':!indexBoard.reverse}">
+                                    </i>
+                                </a>
+                            </th>
+                            <!-- firstName -->
+                            <th class="text-center">
+                                <a href="" data-ng-click="indexBoard.sort('firstName')">
+                                    First Name
+                                    <i class="glyphicon sort-icon"
+                                       data-ng-show="indexBoard.sortKey=='firstName'"
+                                       data-ng-class="{
+                                        'glyphicon-chevron-up':indexBoard.reverse,
+                                        'glyphicon-chevron-down':!indexBoard.reverse}">
+                                    </i>
+                                </a>
+                            </th>
+                            <!-- lastName -->
+                            <th class="text-center">
+                                <a href="" data-ng-click="indexBoard.sort('lastName')">
+                                    Last Name
+                                    <i class="glyphicon sort-icon"
+                                       data-ng-show="indexBoard.sortKey=='lastName'"
+                                       data-ng-class="{
+                                        'glyphicon-chevron-up':indexBoard.reverse,
+                                        'glyphicon-chevron-down':!indexBoard.reverse}">
+                                    </i>
+                                </a>
+                            </th>
+                            <!-- email -->
+                            <th class="text-center">
+                                <a href="" data-ng-click="indexBoard.sort('email')">
+                                    Email
+                                    <i class="glyphicon sort-icon"
+                                       data-ng-show="indexBoard.sortKey=='email'"
+                                       data-ng-class="{
+                                        'glyphicon-chevron-up':indexBoard.reverse,
+                                        'glyphicon-chevron-down':!indexBoard.reverse}">
+                                    </i>
+                                </a>
+                            </th>
+                            <!-- phone -->
+                            <th class="text-center">
+                                <a href="" data-ng-click="indexBoard.sort('phone')">
+                                    Phone
+                                    <i class="glyphicon sort-icon"
+                                       data-ng-show="indexBoard.sortKey=='phone'"
+                                       data-ng-class="{
+                                        'glyphicon-chevron-up':indexBoard.reverse,
+                                        'glyphicon-chevron-down':!indexBoard.reverse}">
+                                    </i>
+                                </a>
+                            </th>
+                            <!-- created -->
+                            <th class="text-center">
+                                <a href="" data-ng-click="indexBoard.sort('created')">
+                                    Date Added
+                                    <i class="glyphicon sort-icon"
+                                       data-ng-show="indexBoard.sortKey=='created'"
+                                       data-ng-class="{
+                                        'glyphicon-chevron-up':indexBoard.reverse,
+                                        'glyphicon-chevron-down':!indexBoard.reverse}">
+                                    </i>
+                                </a>
+                            </th>
+                            <!-- teamsTitle -->
+                            <th class="text-center">
+                                <a href="" data-ng-click="indexBoard.sort('teamName')">
+                                    Team Name
+                                    <i class="glyphicon sort-icon"
+                                       data-ng-show="indexBoard.sortKey=='teamName'"
+                                       data-ng-class="{
+                                        'glyphicon-chevron-up':indexBoard.reverse,
+                                        'glyphicon-chevron-down':!indexBoard.reverse}">
+                                    </i>
+                                </a>
+                            </th>
+                            <!-- userBucketName -->
+                            <th class="text-center">
+                                <a href="" data-ng-click="indexBoard.sort('bucketName')">
+                                    Bucket Name
+                                    <i class="glyphicon sort-icon"
+                                       data-ng-show="indexBoard.sortKey=='bucketName'"
+                                       data-ng-class="{
+                                        'glyphicon-chevron-up':indexBoard.reverse,
+                                        'glyphicon-chevron-down':!indexBoard.reverse}">
+                                    </i>
+                                </a>
+                            </th>
+                            <!-- emailVerified -->
+                            <th class="text-center">
+                                <a href="" data-ng-click="indexBoard.sort('emailVerified')">
+                                    Email Verified
+                                    <i class="glyphicon sort-icon"
+                                       data-ng-show="indexBoard.sortKey=='emailVerified'"
+                                       data-ng-class="{
+                                        'glyphicon-chevron-up':indexBoard.reverse,
+                                        'glyphicon-chevron-down':!indexBoard.reverse}">
+                                    </i>
+                                </a>
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!--
+                        <tr data-ng-repeat="user in indexBoard.usersRecords | orderBy:indexBoard.sortKey:indexBoard.reverse track by user.id ">     
+                        -->
+                        <tr data-ng-repeat="user in indexBoard.usersRecords track by user.id ">              
+                            <td class="text-center">{{user.id}}</td>
+                            <td class="text-center">{{user.firstName}}</td>
+                            <td class="text-center">{{user.lastName}}</td>
+                            <td class="text-center">{{user.email}}</td>
+                            <td class="text-center">{{user.phone}}</td>
+                            <td class="text-center">{{user.created | date: 'shortDate'}}</td>
+                            <td class="text-center">{{user.teamsTitle}}</td>
+                            <td class="text-center">{{user.userBucketName}}</td>
+                            <td class="text-center">{{user.emailVerified}}</td>
+                            <td class="text-center">
+                                <a class="btn btn-white btn-icon btn-circle btn-xs buttons" title="Edit" data-ng-click="indexBoard.openModalUsersEdit('Edit', user.id)"><i class="fa fa-pencil"></i></a>
+                                <a class="btn btn-white btn-icon btn-circle btn-xs buttons" title="View" data-ng-click="indexBoard.viewUser(user.teamsId, user.id)"><i class="fa fa-binoculars"></i></a>
+                                <a class="btn btn-white btn-icon btn-circle btn-xs buttons" title="Subscriptions" ng-click="indexBoard.userOpenSubModal(user.userID)"><i class="fa fa-list-alt"></i></a>
+                                <a class="btn btn-white btn-icon btn-circle btn-xs buttons" title="Permissions" data-ng-click="teamsBoard.userPermissionsOpenSubModal(user)"><i class="fa fa-unlock-alt"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br />
+            <div align="right" data-ng-hide="indexBoard.hideSearchResultsInfo">
+                <span id="search-results-info">
+                    Showing {{indexBoard.totalUsersRecordsShown}} results out of {{indexBoard.totalUsersRecords}} total records
+                </span>
+            </div>
+        </div>
+
+        <div class="panel-footer" data-ng-hide="indexBoard.hidePagination">
+            <!-- Pagination - begin -->
+            <div align="right">
+                <ul class="pagination pagination-sm pagination-inverse m-t-0">
+                    <li data-ng-class="{ 'disabled' : indexBoard.disablePreviousButton }">
+                        <a href="" data-ng-click="indexBoard.firstPage()">First</a>
+                    </li>
+                    <li data-ng-class="{ 'disabled' : indexBoard.disablePreviousButton }">
+                        <a href="" data-ng-click="indexBoard.previousPage()">«Prev</a>
+                    </li>
+                    <li data-ng-repeat="page in indexBoard.pages"
+                        data-ng-class="indexBoard.activePageClass(page)"
+                        data-ng-disabled="indexBoard.disableEllipsesButton">
+                        <a href="" data-ng-click="indexBoard.getPage(page)">{{page.value}}</a>
+                    </li>
+                    <li data-ng-class="{ 'disabled' : indexBoard.disableNextButton }">
+                        <a href="" data-ng-click="indexBoard.nextPage()">Next»</a>
+                    </li>
+                    <li data-ng-class="{ 'disabled' : indexBoard.disableNextButton }">
+                        <a href="" data-ng-click="indexBoard.lastPage()">Last</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- Pagination - end -->
+        </div>
+    </div>
+</div>

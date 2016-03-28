@@ -1,0 +1,99 @@
+﻿<div class="modal-content">
+    <div class="modal-header">
+        <div class="login-brand bg-inverse text-white">
+            <img src="/images/logo-white.png" height="36" class="pull-right" alt="" /> Create Team
+        </div>
+    </div>
+    <div>
+        <div class="modal-body">
+            <form class="form-input-flat" id="teamsForm" name="create.teamsForm" novalidate>
+                <!-- Teams Form - start -->
+                <!-- Title -->
+                <div class="form-group">
+                    <input id="Title"
+                           type="text"
+                           class="form-control input-lg"
+                           name="title"
+                           placeholder="Title"
+                           ng-class="{'error': create.showTeamsErrors && !create.teamsForm.title.$valid}"
+                           ng-model="create.teams.title"
+                           required />
+                    <div role="alert" class="help-inline error">
+                        <span class="error" ng-show="create.showTeamsErrors && create.teamsForm.title.$error.required">Title is required</span>
+                    </div>
+                </div>
+
+                <!-- Slug -->
+                <div class="form-group">
+                    <input id="Slug"
+                           type="text"
+                           class="form-control input-lg"
+                           name="slug"
+                           placeholder="Slug"
+                           ng-class="{'error': create.showTeamsErrors && !create.teamsForm.slug.$valid}"
+                           ng-model="create.teams.slug"
+                           required />
+                    <div role="alert" class="help-inline error">
+                        <span class="error" ng-show="create.showTeamsErrors && create.teamsForm.slug.$error.required">Slug is required</span>
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <div class="form-group">
+                    <input id="Description"
+                           type="text"
+                           class="form-control input-lg"
+                           name="description"
+                           placeholder="Description"
+                           ng-class="{'error': create.showTeamsErrors && !create.teamsForm.description.$valid}"
+                           ng-model="create.teams.description"
+                           required />
+                    <div role="alert" class="help-inline error">
+                        <span class="error" ng-show="create.showTeamsErrors && create.teamsForm.description.$error.required">Description is required</span>
+                    </div>
+                </div>
+
+                <!-- Bucket Id -->
+                <div class="form-group">
+                    <label for="BucketId" class="control-label">Bucket Id</label>
+                    <br />
+                    <select id="BucketId"
+                            class="form-control input-lg"
+                            name="bucketId"
+                            ng-model="create.teams.bucketId"
+                            ng-options="option.bucketId as option.teamName for option in create.bucketOptions"
+                            required></select>
+                    <div role="alert" class="help-inline error">
+                        <span class="error" ng-show="create.showTeamsErrors && create.teamsForm.bucketId.$error.required">User Bucket is required</span>
+                    </div>
+                </div>
+
+                <!-- Active -->
+                <div class="form-group">
+                    <label>
+                        <input id="Active"
+                               type="checkbox"
+                               name="Active"
+                               value="false"
+                               ng-model="create.teams.active"
+                               ng-true-value="true"
+                               ng-false-value="false"> Active
+                    </label>
+                </div>
+
+                <!-- Hidden: Id - MediaId -->
+                <div class="form-group">
+                    <input id="MediaId"
+                           type="hidden"
+                           name="MediaId"
+                           ng-model="create.teams.mediaId">
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <!-- Button: Submit -->
+    <div class="modal-footer">
+        <button id="button-submitInformation" type="submit" class="btn btn-lg btn-primary" ng-click="create.submitTeamsInformation()">Submit Form</button>
+    </div>
+</div>

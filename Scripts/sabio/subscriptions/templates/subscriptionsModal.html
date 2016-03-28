@@ -1,0 +1,158 @@
+﻿<style type="text/css">
+    /*disabling the native calendar from input=date*/
+    input::-webkit-calendar-picker-indicator {
+        display: none;
+    }
+
+    input[type="date"]::-webkit-input-placeholder {
+        visibility: hidden !important;
+    }
+</style>
+
+
+<div class="modal-dialog" style="z-index:10000;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 id="" ng-model="mc.subAction">{{mc.subAction}}</h4>
+        </div>
+        <div class="modal-body">
+            <!--FORM START-->
+            <div class="col-md-6">
+                <form class="form-horizontal" id="mcSubForm" name="mc.subForm" ng-submit="mc.addEditSub()" novalidate>
+
+                    <!--Select either USER or TEAM-->
+                    <div class="form-group">
+                        <label class="control-label"></label>
+                        <label>User or Team Subscription? </label>
+                        <select class="form-control"
+                                id="userType"
+                                name="userType"
+                                ng-model="mc.userType"
+                                ng-change="mc.userTeamNames()"
+                                ng-class="{'error': mc.showCurrentSubErrors && !mc.subForm.userType.$valid}"
+                                required>
+                            <option value="user">User</option>
+                            <option value="team">Team</option>
+                        </select>
+                        <div role="alert" class="help-inline error">
+                            <span class="error" ng-show="mc.showCurrentSubErrors && mc.subForm.userType.$error.required">Please select either user or team.</span>
+                        </div>
+                    </div>
+
+                    <!--Select a USER NAME or TEAM TITLE from dropdown-->
+                    <div class="form-group">
+                        <label class="control-label"></label>
+                        <label>User/Team Name</label>
+                        <select class="form-control"
+                                id="userTeam"
+                                name="userTeam"
+                                ng-model="mc.userTeam"
+                                ng-options="option.value as option.name for option in mc.options"
+                                ng-class="{'error': mc.showCurrentSubErrors && !mc.subForm.userTeam.$valid}"
+                                required>
+                            <option selected="">-Select User/Team-</option>
+                        </select>
+
+                        <div role="alert" class="help-inline error">
+                            <span class="error" ng-show="mc.showCurrentSubErrors && mc.subForm.userTeam.$error.required">Please enter a user or team name.</span>
+                        </div>
+                    </div>
+
+                    <!--SUBSCRIPTION - PREMIUM OR TRIAL -->
+                    <div class="form-group">
+                        <label class="control-label"></label>
+                        <label>Subscription Type</label>
+                        <select class="form-control"
+                                id="subscriptionType"
+                                name="subscriptionType"
+                                data-ng-options="option.subscriptionType as option.subscriptionName for option in mc.subscriptionTypeOptions"
+                                ng-model="mc.currentSub.subscriptionType"
+                                ng-change="mc.selectedPremium()"
+                                ng-class="{'error': mc.showCurrentSubErrors && !mc.subForm.subscriptionType.$valid}"
+                                required>
+                        </select>
+                        <div role="alert" class="help-inline error">
+                            <span class="error" ng-show="mc.showCurrentSubErrors && mc.subForm.subscriptionType.$error.required">Please select the subscription type.</span>
+                        </div>
+                    </div>
+
+                    <!--TRIAL period buttons to auto-select 7 or 30 DAY periods-->
+                    <div id="trialOptions"
+                         name="trialOptions"
+                         ng-model="mc.trialOptions"
+                         ng-show="mc.currentSub.subscriptionType=='1'">
+                        <label>Trial Length</label>
+                        <br />
+                        <button type="button" value="7" class="btn btn-success btn-sm" id="sevenDays" ng-click="mc.trialLength('week')">1 week</button>
+                        <button type="button" value="30" class="btn btn-warning btn-sm" id="thirtyDays" ng-click="mc.trialLength('month')">1 month</button>
+                        <br />
+                        <br />
+
+                    </div>
+
+
+                    <!--Subscription START date-->
+                    <div class="form-group">
+                        <label class="control-label"></label>
+                        <label>Start Date</label>
+                        <p class="input-group">
+                            <input type="date"
+                                   class="form-control"
+                                   id="startDate"
+                                   name="startDate"
+                                   ng-model="mc.currentSub.startDate"
+                                   ng-class="{'error': mc.showCurrentSubErrors && !mc.subForm.startDate.$valid}"
+                                   uib-datepicker-popup
+                                   is-open="mc.startDateOpened"
+                                   ng-focus="mc.datepickerFocus($event, 'startDate')"
+                                   ng-required="mc.currentSub.subscriptionType =='2'"
+                                   close-text="Close" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="mc.openDatepicker($event, 'startDate')"><i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </p>
+                        <div role="alert" class="help-inline error">
+                            <!--<span class="error" ng-show="mc.showCurrentSubErrors && mc.currentSub.subscriptionType == 'Premium'">Subscription start date is required for a Premium subscription.</span>-->
+                            <!--<span class="error" ng-show="mc.showCurrentSubErrors && mc.subForm.startDate.$error.required">Subscription expiration date is required for a Premium subscription.</span>-->
+                        </div>
+                    </div>
+                    
+                    <!--Subscription EXPIRATION date-->
+                    <div class="form-group">
+                        <label class="control-label"></label>
+                        <label>Expire Date</label>
+                        <p class="input-group">
+                            <input type="date"
+                                   class="form-control"
+                                   name="expireDate"
+                                   ng-model="mc.currentSub.expireDate"
+                                   ng-class:{'error': mc.showCurrentSubErrors && !mc.subForm.expireDate.$valid}
+                                   uib-datepicker-popup
+                                   is-open="mc.expireDateOpened"
+                                   ng-focus="mc.datepickerFocus($event, 'expireDate')"
+                                   ng-required="mc.currentSub.subscriptionType =='2'"
+                                   close-text="Close" />
+                            <!--valid-expire=2-->
+
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="mc.openDatepicker($event,'expireDate')"><i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </p>
+                        <div role="alert" class="help-inline error">
+                            <!--<span class="error" ng-show="mc.showCurrentSubErrors && mc.subForm.expireDate.$error.validExpire">Expiration date must be after today.</span>-->
+                            <!--<span class="error" ng-show="mc.showCurrentSubErrors && mc.currentSub.subscriptionType == 'Premium'">Subscription expiration date is required for a Premium subscription.</span>-->
+                            <!--<span class="error" ng-show="mc.showCurrentSubErrors && mc.subForm.expireDate.$error.required">Subscription expiration date is required for a Premium subscription.</span>-->
+
+                        </div>
+                    </div>
+
+                    <!--CREATE SUBSCRIPTION BUTTON -->
+                    <button type="button" class="btn btn-default btn-sm" ng-click="mc.cancel()">Cancel</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+                </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+        </div>
+    </div>
+</div>

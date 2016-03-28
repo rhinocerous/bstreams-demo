@@ -1,0 +1,454 @@
+﻿<style>
+    #SearchInput::-webkit-input-placeholder::before {
+        font-family: fontAwesome;
+        content: '\f002  ';
+        color: #000000;
+    }
+
+    #SearchInput::-moz-placeholder::before #SearchInput {
+        font-family: fontAwesome;
+        content: '\f002  ';
+        color: #000000;
+    }
+
+    #SearchInput:-ms-input-placeholder::before #SearchInput {
+        font-family: fontAwesome;
+        content: '\f002  ';
+        color: #000000;
+    }
+
+    #SearchInput:-moz-placeholder::before #SearchInput {
+        font-family: fontAwesome;
+        content: '\f002  ';
+        color: #000000;
+    }
+
+    #SearchInputDivisions::-webkit-input-placeholder::before {
+        font-family: fontAwesome;
+        content: '\f002  ';
+        color: #000000;
+    }
+
+    #SearchInputDivisions::-moz-placeholder::before #SearchInput {
+        font-family: fontAwesome;
+        content: '\f002  ';
+        color: #000000;
+    }
+
+    #SearchInputDivisions:-ms-input-placeholder::before #SearchInput {
+        font-family: fontAwesome;
+        content: '\f002  ';
+        color: #000000;
+    }
+
+    #SearchInputDivisions:-moz-placeholder::before #SearchInput {
+        font-family: fontAwesome;
+        content: '\f002  ';
+        color: #000000;
+    }
+
+    #ItemsPerPage {
+        color: black;
+        width: 8%;
+        height: 32px;
+        margin-left: 1%;
+    }
+
+    #ItemsPerPageDivisions {
+        color: black;
+        width: 8%;
+        height: 32px;
+        margin-left: 1%;
+    }
+
+    #buttonTeam, #bTeam {
+        height: 32px;
+    }
+
+    .btn .btn-white {
+        background: #D8D8D8;
+        margin-left: 1%;
+    }
+
+    .table-responsive {
+        margin-top: 15px;
+    }
+
+    a {
+        color: #30373E;
+    }
+
+    a:focus, a:hover {
+        color: #30373E;
+         text-decoration: none;
+    }
+
+    .paginationUsers {
+        font-size: 10px;
+        margin-bottom: 0px;
+        margin-top: 0px;
+    }
+
+    .pagination .ng-scope {
+        margin-top: 5px;
+        margin-bottom: 0px;
+    }
+
+    .paginationTeams {
+        margin-bottom: 0;
+    }
+
+    .divisions .panel.panel-default .panel-heading {
+        background: #d5cece;
+    }
+
+    .divisions .panel.panel-default .panel-body {
+        background: white;
+    }
+
+    #buttonsDivisions {
+        background: #E1E2E5;
+    }
+
+    .divisions .table > thead > tr.inverse > th {
+        color: white;
+        background-color: white !important;
+        border-color: white !important;
+    }
+
+    .divisionsUsersFirst {
+        background-color: rgba(213, 216, 218, 0.46);
+    }
+</style>
+
+<!-- teamsController - begin -->
+<div>
+    <uib-accordion close-others="teamsBoard.oneAtATime">
+        <div align="right">
+            <!-- SearchInput - begin -->
+            <div class="ng-hide" data-ng-show="teamsBoard.showTeamsRecords">
+                <input class="btn-sm col-md-4"
+                       type="text"
+                       id="SearchInput"
+                       name="SearchInput"
+                       placeholder="Search Team..."
+                       data-ng-model="SearchInput.$" />
+                <div class="search-icon btn btn-circle pull-left" align="center" data-ng-click="teamsBoard.sortTeams('title')">
+                    <i class="fa fa-fw pull-left f-s-18 fa-sort"></i>
+                </div>
+            </div>
+            <!-- SearchInput - end -->
+            <button type="button" id="buttonTeam" class="btn btn-grey m-b-5 btn-sm" data-ng-click="teamsBoard.openModalTeams('Add')">{{teamsBoard.addLabel()}}</button>
+            <!-- ItemsPerPage - begin -->
+            <select class="btn-sm pull-right ng-hide" data-ng-show="teamsBoard.showTeamsRecords"
+                    id="ItemsPerPage"
+                    name="ItemsPerPage"
+                    data-ng-model="teamsBoard.itemsPerPageTeams">
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="30">30</option>
+                <option value="40">40</option>
+                <option value="50">50</option>
+                <option value="">All</option>
+            </select>
+            <!-- ItemsPerPage - end -->
+        </div>
+        <br />
+        <div class="ng-hide" data-ng-show="teamsBoard.showNoTeamsMessage">
+            <h3>There are currently no teams in this bucket.</h3>
+        </div>
+        <!-- Teams - Accordion - begin -->
+        <div class="panel-group" dir-paginate="teams in teamsBoard.teamsRecords | itemsPerPage:teamsBoard.itemsPerPageTeams | filter:SearchInput | orderBy:teamsBoard.sortKeyTeams:teamsBoard.reverseTeams track by teams.teamsId" pagination-id="teams" data-ng-click="teamsBoard.expandAccordion(teams.teamsId)" scroll-on-click>
+            <uib-accordion-group is-open="status.open">
+                <uib-accordion-heading>
+                    {{teams.title}} ({{teams.countUsers}} {{teams.userLabel}})
+                    <i class="pull-right glyphicon" data-ng-class="{'glyphicon glyphicon-plus': status.open, 'glyphicon glyphicon-minus': !status.open}"></i>
+                </uib-accordion-heading>
+                <div class="ng-hide" data-ng-show="teamsBoard.showNoUsersMessage">
+                    <div align="right">
+                        <button type="button" class="btn btn-white m-b-5 btn-sm" data-ng-click="teamsBoard.openModalTeams('Edit', teams.teamsId)">Edit Company</button>&nbsp;&nbsp;
+                        <button type="button" class="btn btn-white m-b-5 btn-sm" data-ng-click="teamsBoard.viewTeam(teams.teamsId)">View Company</button>&nbsp;&nbsp;
+                        <button type="button" class="btn btn-white m-b-5 btn-sm" data-ng-click="teamsBoard.openModalDivisions('Add', teams.teamsId, teams.title)">Add Division</button>&nbsp;&nbsp;
+                        <button type="button" class="btn btn-white m-b-5 btn-sm" data-ng-click="teamsBoard.teamOpenSubModal(teams.teamsId)">Subscriptions</button>&nbsp;&nbsp;
+                        <button type="button" class="btn btn-white m-b-5 btn-sm" data-ng-click="teamsBoard.openModalUsersAdd('Add', teams.teamsId)">Add User</button>
+                    </div>
+                    <h3>There are currently no users in this team.</h3>
+                </div>
+
+                <!-- Users - Table - begin -->
+                <div class="panel-body table ng-hide" data-ng-show="teamsBoard.showUsersRecords">
+                    <p data-ng-show="teamsBoard.loadingUsers">Loading <i class="fa fa-spinner fa-spin"></i></p>
+                    <div align="right">
+                        <button type="button" class="btn btn-white m-b-5 btn-sm" data-ng-click="teamsBoard.openModalTeams('Edit', teams.teamsId)">Edit Company</button>&nbsp;&nbsp;
+                        <button type="button" class="btn btn-white m-b-5 btn-sm" data-ng-click="teamsBoard.viewTeam(teams.teamsId)">View Company</button>&nbsp;&nbsp;
+                        <button type="button" class="btn btn-white m-b-5 btn-sm" data-ng-click="teamsBoard.openModalDivisions('Add', teams.teamsId, teams.title)">Add Division</button>&nbsp;&nbsp;
+                        <button type="button" class="btn btn-white m-b-5 btn-sm" data-ng-click="teamsBoard.teamOpenSubModal(teams.teamsId)">Subscriptions</button>&nbsp;&nbsp;
+                        <button type="button" class="btn btn-white m-b-5 btn-sm" data-ng-click="teamsBoard.openModalUsersAdd('Add', teams.teamsId)">Add User</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover table-striped table-td-valign-middle">
+                            <thead>
+                                <tr class="inverse">
+                                    <th class="text-center">
+                                        <a href="" data-ng-click="teamsBoard.sortUsers('id')">
+                                            User Id
+                                            <i class="glyphicon sort-icon"
+                                               data-ng-hide="!teamsBoard.tableHeaderNameId"
+                                               data-ng-class="{
+                                                'glyphicon-chevron-up':teamsBoard.reverseUsers,
+                                                'glyphicon-chevron-down':!teamsBoard.reverseUsers}">
+                                            </i>
+                                        </a>
+                                    </th>
+                                    <th class="text-center">Thumbnail</th>
+                                    <th class="text-center">
+                                        <a href="" data-ng-click="teamsBoard.sortUsers('lastName')">
+                                            Full Name
+                                            <i class="glyphicon sort-icon"
+                                               data-ng-show="teamsBoard.sortKeyUsers=='lastName'"
+                                               data-ng-class="{
+                                                'glyphicon-chevron-up':teamsBoard.reverseUsers,
+                                                'glyphicon-chevron-down':!teamsBoard.reverseUsers}">
+                                            </i>
+                                        </a>
+                                    </th>
+                                    <th class="text-center">
+                                        <a href="" data-ng-click="teamsBoard.sortUsers('created')">
+                                            Date Added
+                                            <i class="glyphicon sort-icon"
+                                               data-ng-show="teamsBoard.sortKeyUsers=='created'"
+                                               data-ng-class="{
+                                                'glyphicon-chevron-up':teamsBoard.reverseUsers,
+                                                'glyphicon-chevron-down':!teamsBoard.reverseUsers}">
+                                            </i>
+                                        </a>
+                                    </th>
+                                    <th class="text-center">
+                                        <a href="" data-ng-click="teamsBoard.sortUsers('email')">
+                                            Email
+                                            <i class="glyphicon sort-icon"
+                                               data-ng-show="teamsBoard.sortKeyUsers=='email'"
+                                               data-ng-class="{
+                                                'glyphicon-chevron-up':teamsBoard.reverseUsers,
+                                                'glyphicon-chevron-down':!teamsBoard.reverseUsers}">
+                                            </i>
+                                        </a>
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr dir-paginate="user in teamsBoard.usersRecords | itemsPerPage:teamsBoard.itemsPerPageUsers | orderBy:teamsBoard.sortKeyUsers:teamsBoard.reverseUsers track by user.id" pagination-id="users">
+                                    <td class="text-center">{{user.id}}</td>
+                                    <!--
+                                    <td align="center"><img src="http://sabio-training.s3.amazonaws.com/C13/201621611411_user_profile.jpg" alt="" class="media-object img-rounded" width="50" /></td>
+                                    -->
+
+                                    <td align="center"><img src="{{user.userMedia.mediaFullUrl}}" alt="{{user.userMedia.mediaDescription}}" class="media-object img-rounded" width="50" /></td>
+
+                                    <td class="text-center">{{user.firstName}} {{user.lastName}}</td>
+                                    <td class="text-center">{{user.created | date: 'shortDate'}}</td>
+                                    <td class="text-center">{{user.email}}</td>
+                                    <td class="text-center">
+                                        <a class="btn btn-white btn-icon btn-circle btn-sm" title="Edit" data-ng-click="teamsBoard.openModalUsersEdit('Edit', teams.teamsId, user.id)"><i class="fa fa-pencil"></i></a>
+                                        <a class="btn btn-white btn-icon btn-circle btn-sm" title="View" data-ng-click="teamsBoard.viewUser(teams.teamsId, user.id)"><i class="fa fa-binoculars"></i></a>
+                                        <a class="btn btn-white btn-icon btn-circle btn-sm" title="Subscriptions" data-ng-click="teamsBoard.userOpenSubModal(user.userID)"><i class="fa fa-list-alt"></i></a>
+                                        <a class="btn btn-white btn-icon btn-circle btn-sm" title="Permissions" data-ng-click="teamsBoard.userPermissionsOpenSubModal(user)"><i class="fa fa-unlock-alt"></i></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Pagination - Users - begin -->
+                    <div align="center">
+                        <dir-pagination-controls pagination-id="users" class="pagination pagination-sm pagination-inverse m-t-0 paginationUsers"
+                                                 max-size="teamsBoard.paginationSizeUsers"
+                                                 direction-links="true"
+                                                 boundary-links="true">
+                        </dir-pagination-controls>
+                    </div>
+                    <!-- Pagination - Users - end -->
+                </div>
+                <!-- Users - Table - end -->
+
+                <!-- Divisions - begin -->
+                <div>
+                    <uib-accordion close-others="teamsBoard.oneAtATimeDivisions">
+                        <!-- 
+                        <div align="right">
+                            /* SearchInput - Divisions - begin */
+                            <div class="ng-hide" data-ng-show="teamsBoard.showTeamsRecordsDivisions">
+                                <input class="btn-sm col-md-4"
+                                       type="text"
+                                       id="SearchInputDivisions"
+                                       name="SearchInputDivisions"
+                                       placeholder="Search Division..."
+                                       data-ng-model="SearchInputDivisions.$" />
+                                <div class="search-icon btn btn-circle pull-left" align="center" data-ng-click="teamsBoard.sortTeamsDivisions('title')">
+                                    <i class="fa fa-fw pull-left f-s-18 fa-sort"></i>
+                                </div>
+                            </div>
+                            /* SearchInput - Divisions - end */
+                            <button type="button" id="buttonTeam" class="btn btn-grey m-b-5 btn-sm" data-ng-click="teamsBoard.openModalDivisions('Add', teams.teamsId, teams.title)">Add Division</button>
+                            /* ItemsPerPage - Divisions - begin */
+                            <select class="btn-sm pull-right ng-hide" data-ng-show="teamsBoard.showTeamsRecordsDivisions"
+                                    id="ItemsPerPageDivisions"
+                                    name="ItemsPerPageDivisions"
+                                    data-ng-model="teamsBoard.itemsPerPageTeamsDivisions">
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                                <option value="40">40</option>
+                                <option value="50">50</option>
+                                <option value="">All</option>
+                            </select>
+                            /* ItemsPerPage - Divisions - end */
+                        </div>
+                        <br />
+                        -->
+                        <!-- Teams - Accordion - Divisions - begin -->
+                        <div class="panel-group divisions" dir-paginate="teamsDivisions in teamsBoard.teamsRecordsDivisions | itemsPerPage:teamsBoard.itemsPerPageTeamsDivisions | filter:SearchInputDivisions | orderBy:teamsBoard.sortKeyTeamsDivisions:teamsBoard.reverseTeamsDivisions track by teamsDivisions.teamsId" pagination-id="teamsDivisions" data-ng-click="teamsBoard.expandAccordionDivisions(teamsDivisions.teamsId)" scroll-on-click>    
+                            <uib-accordion-group is-open="statusDivisions.open">
+                                <uib-accordion-heading>
+                                    {{teamsDivisions.title}} ({{teamsDivisions.countUsers}} Users)
+                                    <i class="pull-right glyphicon" data-ng-class="{'glyphicon glyphicon-plus': statusDivisions.open, 'glyphicon glyphicon-minus': !statusDivisions.open}"></i>
+                                </uib-accordion-heading>
+                                <div class="ng-hide" data-ng-show="teamsBoard.showNoUsersMessageDivisions">
+                                    <div align="right">
+                                        <button type="button" id="buttonsDivisions" class="btn btn-white m-b-5 btn-sm" data-ng-click="teamsBoard.openModalDivisions('Edit', teams.teamsId, teams.title, teamsDivisions.teamsId)">Edit Division</button>&nbsp;&nbsp;
+                                        <button type="button" id="buttonsDivisions" class="btn btn-white m-b-5 btn-sm" data-ng-click="teamsBoard.viewTeam(teamsDivisions.teamsId)">View Division</button>&nbsp;&nbsp;
+                                        <button type="button" id="buttonsDivisions" class="btn btn-white m-b-5 btn-sm" data-ng-click="teamsBoard.teamOpenSubModal(teamsDivisions.teamsId)">Subscriptions</button>&nbsp;&nbsp;
+                                        <button type="button" id="buttonsDivisions" class="btn btn-white m-b-5 btn-sm" data-ng-click="teamsBoard.openModalUsersAdd('Add', teamsDivisions.teamsId)">Add User</button>
+                                    </div>
+                                    <h3>There are currently no users in this team.</h3>
+                                </div>
+
+                                <!-- Users - Table - Divisions - begin -->
+                                <div class="panel-body table ng-hide" data-ng-show="teamsBoard.showUsersRecordsDivisions">
+                                    <p data-ng-show="teamsBoard.loadingUsersDivisions">Loading <i class="fa fa-spinner fa-spin"></i></p>
+                                    <div align="right">
+                                        <button type="button" id="buttonsDivisions" class="btn btn-white m-b-5 btn-sm" data-ng-click="teamsBoard.openModalDivisions('Edit', teams.teamsId, teams.title, teamsDivisions.teamsId)">Edit Division</button>&nbsp;&nbsp;
+                                        <button type="button" id="buttonsDivisions" class="btn btn-white m-b-5 btn-sm" data-ng-click="teamsBoard.viewTeam(teamsDivisions.teamsId)">View Division</button>&nbsp;&nbsp;
+                                        <button type="button" id="buttonsDivisions" class="btn btn-white m-b-5 btn-sm" data-ng-click="teamsBoard.teamOpenSubModal(teamsDivisions.teamsId)">Subscriptions</button>&nbsp;&nbsp;
+                                        <button type="button" id="buttonsDivisions" class="btn btn-white m-b-5 btn-sm" data-ng-click="teamsBoard.openModalUsersAdd('Add', teamsDivisions.teamsId)">Add User</button>
+                                    </div>
+                                    <div class="table-responsive divisions">
+                                        <table class="table table-bordered table-hover table-striped table-td-valign-middle">
+                                            <thead>
+                                                <tr class="inverse">
+                                                    <th class="text-center">
+                                                        <a href="" data-ng-click="teamsBoard.sortUsersDivisions('id')">
+                                                            User Id
+                                                            <i class="glyphicon sort-icon"
+                                                               data-ng-hide="!teamsBoard.tableHeaderNameIdDivisions"
+                                                               data-ng-class="{
+                                                'glyphicon-chevron-up':teamsBoard.reverseUsersDivisions,
+                                                'glyphicon-chevron-down':!teamsBoard.reverseUsersDivisions}">
+                                                            </i>
+                                                        </a>
+                                                    </th>
+                                                    <th class="text-center">Thumbnail</th>
+                                                    <th class="text-center">
+                                                        <a href="" data-ng-click="teamsBoard.sortUsersDivisions('lastName')">
+                                                            Full Name
+                                                            <i class="glyphicon sort-icon"
+                                                               data-ng-show="teamsBoard.sortKeyUsersDivisions=='lastName'"
+                                                               data-ng-class="{
+                                                'glyphicon-chevron-up':teamsBoard.reverseUsersDivisions,
+                                                'glyphicon-chevron-down':!teamsBoard.reverseUsersDivisions}">
+                                                            </i>
+                                                        </a>
+                                                    </th>
+                                                    <th class="text-center">
+                                                        <a href="" data-ng-click="teamsBoard.sortUsersDivisions('created')">
+                                                            Date Added
+                                                            <i class="glyphicon sort-icon"
+                                                               data-ng-show="teamsBoard.sortKeyUsersDivisions=='created'"
+                                                               data-ng-class="{
+                                                'glyphicon-chevron-up':teamsBoard.reverseUsersDivisions,
+                                                'glyphicon-chevron-down':!teamsBoard.reverseUsersDivisions}">
+                                                            </i>
+                                                        </a>
+                                                    </th>
+                                                    <th class="text-center">
+                                                        <a href="" data-ng-click="teamsBoard.sortUsersDivisions('email')">
+                                                            Email
+                                                            <i class="glyphicon sort-icon"
+                                                               data-ng-show="teamsBoard.sortKeyUsersDivisions=='email'"
+                                                               data-ng-class="{
+                                                'glyphicon-chevron-up':teamsBoard.reverseUsersDivisions,
+                                                'glyphicon-chevron-down':!teamsBoard.reverseUsersDivisions}">
+                                                            </i>
+                                                        </a>
+                                                    </th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="divisionsUsersFirst">
+                                                <tr dir-paginate="usersDivisions in teamsBoard.usersRecordsDivisions | itemsPerPage:teamsBoard.itemsPerPageUsersDivisions | orderBy:teamsBoard.sortKeyUsersDivisions:teamsBoard.reverseUsersDivisions track by usersDivisions.id" pagination-id="usersDivisions">
+                                                    <td class="text-center">{{usersDivisions.id}}</td>
+                                                    <!--
+                                                    <td align="center"><img src="http://sabio-training.s3.amazonaws.com/C13/201621611411_user_profile.jpg" alt="" class="media-object img-rounded" width="50" /></td>
+                                                    -->
+
+                                                    <td align="center"><img src="{{usersDivisions.userMedia.mediaFullUrl}}" alt="{{userDivisions.userMedia.mediaDescription}}" class="media-object img-rounded" width="50" /></td>
+
+                                                    <td class="text-center">{{userDivisions.firstName}} {{usersDivisions.lastName}}</td>
+                                                    <td class="text-center">{{usersDivisions.created | date: 'shortDate'}}</td>
+                                                    <td class="text-center">{{usersDivisions.email}}</td>
+                                                    <td class="text-center">
+                                                        <a class="btn btn-white btn-icon btn-circle btn-sm" title="Edit" data-ng-click="teamsBoard.openModalUsersEdit('Edit', teamsDivisions.teamsId, usersDivisions.id)"><i class="fa fa-pencil"></i></a>
+                                                        <a class="btn btn-white btn-icon btn-circle btn-sm" title="View" data-ng-click="teamsBoard.viewUser(teams.teamsId, usersDivisions.id)"><i class="fa fa-binoculars"></i></a>
+                                                        <a class="btn btn-white btn-icon btn-circle btn-sm" title="Subscriptions" data-ng-click="teamsBoard.userOpenSubModal(usersDivisions.userID)"><i class="fa fa-list-alt"></i></a>
+                                                        <a class="btn btn-white btn-icon btn-circle btn-sm" title="Permissions" data-ng-click="teamsBoard.userPermissionsOpenSubModal(usersDivisions)"><i class="fa fa-unlock-alt"></i></a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- Pagination - Users - Divisions - begin -->
+                                    <!-- 
+                                    <div align="center">
+                                        <dir-pagination-controls pagination-id="usersDivisions" class="pagination pagination-sm pagination-inverse m-t-0 paginationUsers"
+                                                                 max-size="teamsBoard.paginationSizeUsersDivisions"
+                                                                 direction-links="true"
+                                                                 boundary-links="true">
+                                        </dir-pagination-controls>
+                                    </div>
+                                    -->
+                                    <!-- Pagination - Users - Divisions - end -->
+                                </div>
+                                <!-- Users - Table - Divisions - end -->
+                            </uib-accordion-group>
+                        </div>
+                        <!-- Teams - Accordion - Divisions - end -->
+                    </uib-accordion>
+                    <!-- Pagination - Teams - Divisions - begin -->
+                    <!-- 
+                    <div align="right" class="ng-hide" data-ng-show="teamsBoard.showTeamsRecordsDivisions">
+                        <dir-pagination-controls pagination-id="teamsDivisions" class="pagination pagination-sm pagination-inverse m-t-0 paginationTeams"
+                                                 max-size="teamsBoard.paginationSizeTeamsDivisions"
+                                                 direction-links="true"
+                                                 boundary-links="true">
+                        </dir-pagination-controls>
+                    </div>
+                    -->
+                    <!-- Pagination - Teams - Divisions - begin -->
+                </div>
+                <!-- Divisions - end -->
+
+            </uib-accordion-group>
+        </div>
+        <!-- Teams - Accordion - end -->
+    </uib-accordion>
+    <!-- Pagination - Teams - begin -->
+    <div align="right" class="ng-hide" data-ng-show="teamsBoard.showTeamsRecords">
+        <dir-pagination-controls pagination-id="teams" class="pagination pagination-sm pagination-inverse m-t-0 paginationTeams"
+                                 max-size="teamsBoard.paginationSizeTeams"
+                                 direction-links="true"
+                                 boundary-links="true">
+        </dir-pagination-controls>
+    </div>
+    <!-- Pagination - Teams - begin -->
+</div>
+<!-- teamsController - end -->

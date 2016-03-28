@@ -1,0 +1,12 @@
+﻿<!--Template for the angular popover on the medLib + imgBank index page. Used in the mediaSelection panel:-->
+<div>
+    <strong>Media Id:</strong> {{node.tableData.mediaId}}
+    <br />
+    <strong>Created on:</strong> {{node.dateCreated}}
+    <br />
+    <strong>By</strong> {{node.tableData.mediaUserId}}
+    <br />
+    <br />
+    <!--<img ng-src="{{node.tableData.mediaThumbnailFullUrl[4]}}" width="400" />-->
+    <img ng-src="{{node.tableData.mediaFullUrl}}" width="400"/>
+</div>

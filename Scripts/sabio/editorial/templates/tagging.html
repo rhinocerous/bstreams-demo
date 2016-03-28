@@ -1,0 +1,47 @@
+﻿<style>
+    #main {
+        margin-top: 15px;
+    }
+
+    #breadcrumb-body {
+        z-index: 1;
+    }
+
+</style>
+
+<div id="main">
+    <!--begin panel header with tabs-->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="tabs-left panel panel-inverse"> 
+                <div class="panel-heading ion-bigger" style="text-align:center">
+                    Editorial Categories
+                </div>
+                <div class="panel-body" style="border: 2px solid black">
+                    <p class="mainCat" data-ng-repeat="tag in taggingCtrl.mainCategories track by tag.id">
+                        <button class="btn btn-block btn-rounded"
+                                ng-click="taggingCtrl.onCategoryClick(tag.id, tag)"
+                                ng-class="{'btn-primary': taggingCtrl.isActive(tag.id), 'btn-grey': !taggingCtrl.isActive(tag.id)}">
+                            <i ng-show="taggingCtrl.isActive(tag.id) && taggingCtrl.hasItems" class="ion-arrow-right-a pull-right"></i>
+                            {{tag.tags}}
+                        </button>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!--begin subcategories container-->
+        <div class="col-md-6" ng-show="taggingCtrl.subCategoriesExist">
+            <!--Chosen will go here:-->
+            <select chosen
+                    class="form-control input-lg"
+                    options="taggingCtrl.childrenOfSubCat"
+                    ng-model="taggingCtrl.children"
+                    ng-options="value.slug as value.slug for value in taggingCtrl.childrenOfSubCat"></select>
+        </div>
+        <!--end subcategories container-->
+    </div>
+</div>
+<!--end main container-->
+
+
+<!--ng-model="taggingCtrl.tag"-->

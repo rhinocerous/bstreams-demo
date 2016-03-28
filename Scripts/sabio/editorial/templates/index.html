@@ -1,0 +1,49 @@
+﻿<div class="row">
+    <div class="col-md-12">
+        <!-- begin panel -->
+        <div class="panel panel-inverse">
+            <div class="panel-heading">                
+                <div class="panel-heading-btn">                    
+                    <a href="#/create"  class="btn btn-xs btn-icon btn-circle btn-white"  uib-tooltip="New"><i class="fa fa-plus"></i></a>                    
+                </div>
+                <h2 class="panel-title">{{index.status}} Editorials</h2>                
+            </div>
+            <div class="table-responsive">
+                <table id="EditorialTable" class="table table-bordered table-hover table-striped table-td-valign-middle">
+                    <thead>
+                        <tr class="inverse">
+                            <th class="text-center">Id</th>
+                            <th class="text-center">Thumbnail</th>
+                            <th class="text-center">Title</th>
+                            <th class="text-center">Editor(s)</th>
+                            <th class="text-center">Designer(s)</th>
+                            <th class="text-center">Status</th>
+                            <th class="text-center">Live Date</th>                            
+                            <th class="text-center">Actions</th>                           
+                        </tr>
+                    </thead>
+                    <tbody>                        
+                        <tr ng-repeat="ed in index.editorials track by ed.editorialId" > 
+                            <td class="IdColumn text-center">{{ed.editorialId}}</td>
+                            <td class="text-center"> </td> <!-- thumbnail here -->
+                            <td class="TitleColumn text-center">{{ed.title}}</td>
+                            <td class="EditorColumn text-center">{{ed.editorsFirstNames}}</td>
+                            <td class="DesignerColumn text-center">{{ed.designersFirstNames}}</td>
+                            <td class="StatusColumn text-center">{{index.statusOptions[ed.status]}}</td>
+                            <td class="LiveDateColumn text-center">{{ed.liveDate | date:short}}</td>
+                                                        
+                            <td class="EditColumn text-center">                                
+                                <a ng-if="index.status != 'PENDING'" href="#/editorial/{{ed.editorialId}}/content" class="btn btn-white btn-icon btn-circle btn-sm" uib-tooltip="Content"><i class="fa fa-cubes"></i></a> 
+                                <a ng-if="index.status != 'PENDING'" href="#/editorial/{{ed.editorialId}}/attributes" class="btn btn-white btn-icon btn-circle btn-sm" uib-tooltip="Attributes"><i class="fa fa-pencil"></i></a>
+                                <a ng-if="index.status != 'PENDING'" ng-click="index.duplicateEditorial(ed)" class="btn btn-white btn-icon btn-circle btn-sm"  uib-tooltip="Duplicate"><i class="fa fa-copy"></i></a>
+                                <a href="#/editorial/{{ed.editorialId}}/content/preview" class="btn btn-white btn-icon btn-circle btn-sm"><i class="fa fa-eye" uib-tooltip="Preview"></i></a>
+                                <a ng-if="index.status != 'PENDING'" ng-click="index.deleteEditorial(ed)" class="btn btn-white btn-icon btn-circle btn-sm" uib-tooltip="Delete"><i class="fa fa-times"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- end panel -->
+    </div>
+</div>

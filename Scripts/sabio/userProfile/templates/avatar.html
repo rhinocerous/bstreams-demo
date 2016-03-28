@@ -1,0 +1,65 @@
+﻿<!--HTML from Views/Users/UserProfile-->
+
+<!-- begin row -->
+<div class="row">
+    <!-- begin col-6 -->
+    <div class="col-lg-6">
+        <!-- begin panel -->
+        <div class="panel panel-inverse">
+            <div class="panel-heading">
+                <div class="panel-heading-btn">
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-lime" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
+                </div>
+                <h4 class="panel-title">File Uploader</h4>
+            </div>
+            <div class="panel-body">
+                <div>
+                    <!-- dropzone here -->
+                    <form id="mediaForm" class="dropzone" action="/api/media/create/1" method="post" enctype="multipart/form-data">
+                        <div class="dz-message"><span class="glyphicon glyphicon-picture" aria-hidden="true" style="font-size: 3em"></span><br /> "Drag an image here to upload, or click to select one."</div>
+                        <div class="fallback">
+                            <input type="file" name="file" multiple />
+                        </div>
+                        <!--The 'div' below is used to hold and transport the ID-->
+                        <div class="form-group" id="envelopeForId">
+                            <input type="hidden" id="userId" value="@Model.AppUser.Id" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- end panel -->
+    </div>
+
+    <div class="col-lg-6">
+        <!-- begin panel -->
+        <div class="panel panel-inverse">
+            <div class="panel-heading">
+                <div class="panel-heading-btn">
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-lime" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
+                </div>
+                <h4 class="panel-title">Current Avatar</h4>
+            </div>
+            <div class="panel-body">
+                <div>
+                    <!-- show picture here -->
+                    <div id="pictureIcon" class="dz-message"><span class="glyphicon glyphicon-picture" aria-hidden="true" style="font-size: 3em"></span><br /> </div>
+                    <img id="uploadedPicture" src="" class="img-responsive" />
+                    <div id="uploadedPictureMessage">You currently don't have any pictures on file. Please upload a picture using the File Uploader on the left.</div>
+                    <br /><br /><br /><br /><br /><br /><br /><br /><br />
+                </div>
+            </div>
+        </div>
+        <!-- end panel -->
+    </div>
+
+    <!-- end col-6 -->
+    <!-- begin col-6 -->
+
+
+</div>
+<!-- end row -->

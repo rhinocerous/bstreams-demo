@@ -1,0 +1,143 @@
+﻿<!-- modalDivisionsController - begin -->
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 data-ng-model="modalDivisionsBoard.headerText">{{modalDivisionsBoard.headerText}}</h4>
+        </div>
+        <div class="modal-body">
+            <!-- Form - Divisions - begin -->
+            <form class="form-input-flat"
+                  id="formDivisions"
+                  name="modalDivisionsBoard.formDivisions"
+                  novalidate>
+                <div class="pull-right">
+                    <label class="control-label">Team Name: </label>
+                    <label class="control-label"><u>{{modalDivisionsBoard.parentTeamsTitle}}</u></label>
+                </div>
+                <div class="col-md-3 pull-right">
+                    <input type="hidden"
+                           class="form-control input-sm"
+                           id="ParentTeamsId"
+                           name="ParentTeamsId" />
+                    <!--
+                    {{modalDivisionsBoard.parentTeamsId}}
+                    -->
+                </div>
+                <br />
+                <div>
+                    <!-- Title -->
+                    <div class="form-group">
+                        <label for="Title" class="control-label">Title</label>
+                        <input type="text"
+                               class="form-control input-sm"
+                               data-ng-class="{'error': modalDivisionsBoard.showFormDivisionsErrors && !modalDivisionsBoard.formDivisions.Title.$valid}"
+                               id="Title"
+                               name="Title"
+                               placeholder="Title"
+                               data-ng-model="modalDivisionsBoard.inputFormDivisions.title"
+                               data-ng-blur="modalDivisionsBoard.keyUpSlug()"
+                               required />
+                        <div role="alert" class="divisions-inline error">
+                            <span class="error"
+                                  data-ng-show="modalDivisionsBoard.showFormDivisionsErrors && modalDivisionsBoard.formDivisions.Title.$error.required">
+                                Title is required
+                            </span>
+                        </div>
+                    </div>
+                    <!-- Slug -->
+                    <div class="form-group">
+                        <label for="Slug" class="control-label">Slug</label>
+                        <input type="text"
+                               class="form-control input-sm"
+                               data-ng-class="{'error': modalDivisionsBoard.showFormDivisionsErrors && !modalDivisionsBoard.formDivisions.Slug.$valid}"
+                               id="Slug"
+                               name="Slug"
+                               placeholder="Slug"
+                               data-ng-model="modalDivisionsBoard.inputFormDivisions.slug"
+                               data-ng-disabled="modalDivisionsBoard.isDisabledSlug"
+                               required />
+                        <div role="alert" class="divisions-inline error">
+                            <span class="error"
+                                  data-ng-show="modalDivisionsBoard.showFormDivisionsErrors && modalDivisionsBoard.formDivisions.Slug.$error.required">
+                                Slug is required
+                            </span>
+                        </div>
+                    </div>
+                    <!-- Description -->
+                    <div class="form-group">
+                        <label for="Description" class="control-label">Description</label>
+                        <input type="text"
+                               class="form-control input-sm"
+                               data-ng-class="{'error': modalDivisionsBoard.showFormDivisionsErrors && !modalDivisionsBoard.formDivisions.Description.$valid}"
+                               id="Description"
+                               name="Description"
+                               placeholder="Description"
+                               data-ng-model="modalDivisionsBoard.inputFormDivisions.description"
+                               required />
+                        <div role="alert" class="divisions-inline error">
+                            <span class="error"
+                                  data-ng-show="modalDivisionsBoard.showFormDivisionsErrors && modalDivisionsBoard.formDivisions.Description.$error.required">
+                                Description is required
+                            </span>
+                        </div>
+                    </div>
+                    <!-- Dropdown - Bucket Id -->
+                    <!--
+                    <div class="form-group">
+                        <label for="BucketIdDropDown" class="control-label">User Bucket</label>
+                        <br />
+                        <select class="form-control input-sm"
+                                data-ng-class="{'error': modalDivisionsBoard.showFormDivisionsErrors && !modalDivisionsBoard.formDivisions.BucketIdDropDown.$valid}"
+                                id="BucketIdDropDown"
+                                name="BucketIdDropDown"
+                                value="{{option.bucketId}}"
+                                data-ng-model="modalDivisionsBoard.inputFormDivisions.bucketId"
+                                data-ng-options="option.bucketId as option.teamName for option in modalDivisionsBoard.bucketOptions"
+                                required></select>
+                        <div role="alert" class="divisions-inline error">
+                            <span class="error"
+                                  data-ng-show="modalDivisionsBoard.showFormDivisionsErrors && modalDivisionsBoard.formDivisions.BucketIdDropDown.$error.required">
+                                User Bucket is required
+                            </span>
+                        </div>
+                        /*
+                        data-ng-disabled="modalDivisionsBoard.isDisabledBucketId"
+                        */
+                    </div>
+                    -->
+                    <!-- Checkbox - Active -->
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox"
+                                   id="Active"
+                                   name="Active"
+                                   data-ng-model="modalDivisionsBoard.inputFormDivisions.active"
+                                   value="false"
+                                   data-ng-true-value="true"
+                                   data-ng-false-value="false"
+                                   data-ng-checked="modalDivisionsBoard.isCheckedActive">
+                            Active
+                        </label>
+                        <!--
+                        data-ng-disabled="modalDivisionsBoard.isDisabledActive"
+                        -->
+                    </div>
+                    <!-- Hidden - begin -->
+                    <!-- to differentiate between teams (divisions) added using this view (1) or the bulkupsert feature (2) -->
+                    <input type="hidden"
+                           id="SourceId"
+                           name="SourceId"
+                           data-ng-model="modalDivisionsBoard.inputFormDivisions.sourceId"
+                           value="2" />
+                    <!-- Hidden - end -->
+                </div>
+            </form>
+            <!-- Form - Divisions - end -->
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary m-b-5" data-ng-click="modalDivisionsBoard.cancel()">Cancel</button>
+        <button type="submit" class="btn btn-inverse m-b-5" data-ng-click="modalDivisionsBoard.submit()">Submit</button>
+    </div>
+</div>
+<!-- modalDivisionsController - end -->

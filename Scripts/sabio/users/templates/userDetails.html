@@ -1,0 +1,307 @@
+﻿<style>
+    #details {
+        background-color: rgba(213, 216, 218, 0.03);
+    }
+
+    .inlineForm {
+        display: inline-block;
+    }
+
+    .lineGraph {
+        width: 900px;
+        height: 250px;
+    }
+
+    .pieGraph {
+        width: 900px;
+        height: 200px;
+    }
+
+    .axisLabel {
+        position: absolute;
+        text-align: center;
+        font-size: 12px;
+    }
+
+    .xaxisLabel {
+        bottom: -15px;
+        left: 0;
+        right: 0;
+        font-weight: bold;
+    }
+
+    .yaxisLabel {
+        top: 50%;
+        left: -16px;
+        transform: rotate(-90deg);
+        -o-transform: rotate(-90deg);
+        -ms-transform: rotate(-90deg);
+        -moz-transform: rotate(-90deg);
+        -webkit-transform: rotate(-90deg);
+        transform-origin: 0 0;
+        -o-transform-origin: 0 0;
+        -ms-transform-origin: 0 0;
+        -moz-transform-origin: 0 0;
+        -webkit-transform-origin: 0 0;
+        font-weight: bold;
+    }
+</style>
+
+<!-- userDetailsController - begin -->
+<div align="right">
+    <button type="button" class="btn btn-grey m-b-5 btn-sm" ng-click="userDetailsBoard.back()">Back</button>
+</div>
+<br />
+<div class="panel">
+    <div id="details" class="panel-heading">
+        <h4>{{userDetailsBoard.userDetails.firstName}} {{userDetailsBoard.userDetails.lastName}}</h4>
+    </div>
+    <div class="panel-body">
+        <!-- Media - begin -->
+        <div class="col-md-2" align="center">
+            <a href="{{userDetailsBoard.mediaFullUrl}}"><img data-ng-src="{{userDetailsBoard.mediaFullUrl}}" alt="{{userDetailsBoard.mediaDescription}}" class="img-rounded img-responsive"></a>
+        </div>
+        <!-- Media - end -->
+        <!-- Basic Information - begin -->
+        <div class="col-md-3">
+            <fieldset>
+                <legend>Basic Information</legend>
+                <h6>&nbsp;<strong>User Id: </strong></h6>
+                <h6>&nbsp;&nbsp;&nbsp;{{userDetailsBoard.userDetails.id}}</h6><br />
+
+                <h6>&nbsp;<strong>First Name: </strong></h6>
+                <h6>&nbsp;&nbsp;&nbsp;{{userDetailsBoard.userDetails.firstName}}</h6><br />
+
+                <h6>&nbsp;<strong>Last Name: </strong></h6>
+                <h6>&nbsp;&nbsp;&nbsp;{{userDetailsBoard.userDetails.lastName}}</h6><br />
+
+                <h6>&nbsp;<strong>Date Created: </strong></h6>
+                <h6>&nbsp;&nbsp;&nbsp;{{userDetailsBoard.userDetails.created | date: 'shortDate'}}</h6><br />
+
+                <h6>&nbsp;<strong>Email: </strong></h6>
+                <h6>&nbsp;&nbsp;&nbsp;{{userDetailsBoard.userDetails.email}}</h6><br />
+
+                <h6>&nbsp;<strong>Phone: </strong></h6>
+                <h6>&nbsp;&nbsp;&nbsp;{{userDetailsBoard.userDetails.phone}}</h6><br />
+
+                <h6>&nbsp;<strong>Team: </strong></h6>
+                <h6>&nbsp;&nbsp;&nbsp;{{userDetailsBoard.teamsTitle}}</h6><br />
+            </fieldset>
+        </div>
+        <!-- Basic Information - end -->
+        <!-- Address - begin -->
+        <div class="col-md-3">
+            <fieldset>
+                <legend>Address</legend>
+                <h6>&nbsp;<strong>Address 1: </strong></h6>
+                <h6>&nbsp;&nbsp;&nbsp;{{userDetailsBoard.address1}}</h6><br />
+
+                <h6>&nbsp;<strong>Address 2: </strong></h6>
+                <h6>&nbsp;&nbsp;&nbsp;{{userDetailsBoard.address2}}</h6><br />
+
+                <h6>&nbsp;<strong>City: </strong></h6>
+                <h6>&nbsp;&nbsp;&nbsp;{{userDetailsBoard.city}}</h6><br />
+
+                <h6>&nbsp;<strong>State: </strong></h6>
+                <h6>&nbsp;&nbsp;&nbsp;{{userDetailsBoard.stateProvinceName}}</h6><br />
+
+                <h6>&nbsp;<strong>Country: </strong></h6>
+                <h6>&nbsp;&nbsp;&nbsp;{{userDetailsBoard.countryRegionCode}}</h6>
+            </fieldset>
+        </div>
+        <!-- Address - end -->
+        <!-- Access - begin -->
+        <div class="col-md-2">
+            <fieldset>
+                <legend>Access</legend>
+                <h6>&nbsp;<strong>Frontend Access: </strong></h6>
+                <h6>&nbsp;&nbsp;&nbsp;{{userDetailsBoard.userDetails.frontendAccess}}</h6><br />
+
+                <h6>&nbsp;<strong>Backend Access: </strong></h6>
+                <h6>&nbsp;&nbsp;&nbsp;</h6><br />
+
+                <h6>&nbsp;<strong>Email Verified: </strong></h6>
+                <h6>&nbsp;&nbsp;&nbsp;{{userDetailsBoard.userDetails.emailVerified}}</h6><br />
+
+                <h6>&nbsp;<strong>Administrator: </strong></h6>
+                <h6>&nbsp;&nbsp;&nbsp;{{userDetailsBoard.userDetails.administrator}}</h6>
+            </fieldset>
+        </div>
+        <!-- Access - end -->
+        <!-- Roles - begin -->
+        <div class="col-md-2">
+            <fieldset>
+                <legend>Roles</legend>
+                <div class="form-group" data-ng-repeat="role in userDetailsBoard.roleOptions track by role.roleId">
+                    <label>
+                        &nbsp;
+                        <input type="checkbox"
+                               id="Role"
+                               name="Role"
+                               value="{{role.roleId}}"
+                               data-checklist-model="userDetailsBoard.user.roleSelected"
+                               data-checklist-value="role"
+                               data-ng-disabled="!checked">
+                        {{role.roleName}}
+                    </label><br />
+                </div>
+            </fieldset>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-2">
+
+        </div>
+        <div class="col-md-10">
+            <fieldset>
+                <legend>Analytics</legend>
+                <form id="lineGraphForm" name="userDetailsBoard.lineGraphForm" novalidate>
+                    <div class="form-group inlineForm">
+                        <h6><strong>Start Date: </strong></h6>
+                        <input type="date" class="form-control"
+                               id="lineGraphDateOne" placeholder="mm/dd/yyyy"
+                               ng-model="userDetailsBoard.lineGraphDateOne"
+                               required>
+                    </div>
+                    <div class="form-group inlineForm">&nbsp; &nbsp;</div>
+                    <div class="form-group inlineForm">
+                        <h6><strong>End Date: </strong></h6>
+                        <input type="date" class="form-control"
+                               id="lineGraphDateTwo" placeholder="mm/dd/yyyy"
+                               ng-model="userDetailsBoard.lineGraphDateTwo"
+                               required>
+                    </div>
+                    <div class="form-group inlineForm">&nbsp; &nbsp;</div>
+                    <div class="form-group inlineForm">
+                        <h6><strong>Average by: </strong></h6>
+                        <select chosen
+                                class="form-control"
+                                name="lineGraphPer"
+                                id="lineGraphPer"
+                                ng-model="userDetailsBoard.lineGraphPer">
+                            <option value="day">day </option>
+                            <option value="week">week </option>
+                            <option value="month">month </option>
+                        </select>
+                    </div>
+                    <div class="form-group inlineForm">&nbsp; &nbsp;</div>
+                    <button type="button" class="btn btn-primary" ng-click="userDetailsBoard.onClickLineGraphArrow()"><i class="fa fa-arrow-right"></i></button>
+                </form>
+                <div ng-show="userDetailsBoard.lineGraphLoading">
+                    <p>Loading <i class="fa fa-spinner fa-spin"></i></p>
+                </div>
+                <div class="lineGraph">
+
+                </div>
+                <br />
+                <div>
+                    <h6><strong>Summary: </strong></h6>
+                    <h6>
+                        <strong>{{userDetailsBoard.userDetails.firstName}} {{userDetailsBoard.userDetails.lastName}}</strong> spent, in total, about
+                        <strong>{{userDetailsBoard.lineGraphTotalHoursResult}}</strong> hours on BeautyStreams between
+                        <strong>{{userDetailsBoard.convertDateForCSharp(userDetailsBoard.lineGraphDateOneResult)}}</strong> and
+                        <strong>{{userDetailsBoard.convertDateForCSharp(userDetailsBoard.lineGraphDateTwoResult)}}</strong>.
+                    </h6>
+                    <h6>
+                        <strong>{{userDetailsBoard.userDetails.firstName}} {{userDetailsBoard.userDetails.lastName}}</strong> spent, on average, about
+                        <strong>{{userDetailsBoard.lineGraphAverageHoursResult}}</strong> hours on BeautyStreams
+                        <strong>per {{userDetailsBoard.lineGraphPerResult}}</strong> between
+                        <strong>{{userDetailsBoard.convertDateForCSharp(userDetailsBoard.lineGraphDateOneResult)}}</strong> and
+                        <strong>{{userDetailsBoard.convertDateForCSharp(userDetailsBoard.lineGraphDateTwoResult)}}</strong>.
+                    </h6>
+                </div>
+            </fieldset>
+            <div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-2">
+
+        </div>
+        <div class="col-md-10">
+            <fieldset>
+                <legend>Analytics by Page</legend>
+                <form id="pieGraphForm" name="userDetailsBoard.pieGraphForm" novalidate>
+                    <div class="form-group inlineForm">
+                        <h6><strong>Start Date: </strong></h6>
+                        <input type="date" class="form-control"
+                               id="pieGraphDateOne" placeholder="mm/dd/yyyy"
+                               ng-model="userDetailsBoard.pieGraphDateOne"
+                               required>
+                    </div>
+                    <div class="form-group inlineForm">&nbsp; &nbsp;</div>
+                    <div class="form-group inlineForm">
+                        <h6><strong>End Date: </strong></h6>
+                        <input type="date" class="form-control"
+                               id="pieGraphDateTwo" placeholder="mm/dd/yyyy"
+                               ng-model="userDetailsBoard.pieGraphDateTwo"
+                               required>
+                    </div>
+                    <div class="form-group inlineForm">&nbsp; &nbsp;</div>
+                    <div class="form-group inlineForm">
+                        <h6><strong>Controller And Action: </strong></h6>
+                        <select chosen
+                                class="form-control"
+                                name="pieGraphControllerAndActionSelect"
+                                id="pieGraphControllerAndActionSelect"
+                                ng-model="userDetailsBoard.pieGraphSelectedControllerAndAction">
+                            <option ng-repeat="controllerAndAction in userDetailsBoard.controllerAndAction" value="{{controllerAndAction}}">{{userDetailsBoard.matchFormat(controllerAndAction)}}  &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;</option>
+                        </select>
+                    </div>
+                    <div class="form-group inlineForm">&nbsp; &nbsp;</div>
+                    <div class="form-group inlineForm">
+                        <h6><strong>Average by: </strong></h6>
+                        <select chosen
+                                class="form-control"
+                                name="pieGraphPer"
+                                id="pieGraphPer"
+                                ng-model="userDetailsBoard.pieGraphPer">
+                            <option value="day">day </option>
+                            <option value="week">week </option>
+                            <option value="month">month </option>
+                        </select>
+                    </div>
+                    <div class="form-group inlineForm">&nbsp; &nbsp;</div>
+                    <button type="button" class="btn btn-primary" ng-click="userDetailsBoard.onClickPieGraphArrow()"><i class="fa fa-arrow-right"></i></button>
+                </form>
+                <div ng-show="userDetailsBoard.pieGraphLoading">
+                    <p>Loading <i class="fa fa-spinner fa-spin"></i></p>
+                </div>
+                <div class="pieGraph">
+
+                </div>
+                <br />
+                <div>
+                    <h6><strong>Summary: </strong></h6>
+                    <h6>
+                        <strong>{{userDetailsBoard.userDetails.firstName}} {{userDetailsBoard.userDetails.lastName}}</strong> spent, in total, about
+                        <strong>{{userDetailsBoard.pieGraphTotalHours}}</strong> hours on
+                        <strong>{{userDetailsBoard.pieGraphSelectedControllerAndActionResult}}</strong> between
+                        <strong>{{userDetailsBoard.convertDateForCSharp(userDetailsBoard.pieGraphDateOneResult)}}</strong> and
+                        <strong>{{userDetailsBoard.convertDateForCSharp(userDetailsBoard.pieGraphDateTwoResult)}}</strong>.
+                    </h6>
+                    <h6>
+                        <strong>{{userDetailsBoard.userDetails.firstName}} {{userDetailsBoard.userDetails.lastName}}</strong> spent, on average, about
+                        <strong>{{userDetailsBoard.pieGraphAverageHours}}</strong> hours on
+                        <strong>{{userDetailsBoard.pieGraphSelectedControllerAndActionResult}}</strong>
+                        <strong>per {{userDetailsBoard.pieGraphPerResult}}</strong> between
+                        <strong>{{userDetailsBoard.convertDateForCSharp(userDetailsBoard.pieGraphDateOneResult)}}</strong> and
+                        <strong>{{userDetailsBoard.convertDateForCSharp(userDetailsBoard.pieGraphDateTwoResult)}}</strong>.
+                    </h6>
+                    <h6>
+                        <strong>{{userDetailsBoard.userDetails.firstName}} {{userDetailsBoard.userDetails.lastName}}</strong> spent about
+                        <strong>{{userDetailsBoard.pieGraphPercentage}}%</strong> of the time on
+                        <strong>{{userDetailsBoard.pieGraphSelectedControllerAndActionResult}}</strong> between
+                        <strong>{{userDetailsBoard.convertDateForCSharp(userDetailsBoard.pieGraphDateOneResult)}}</strong> and
+                        <strong>{{userDetailsBoard.convertDateForCSharp(userDetailsBoard.pieGraphDateTwoResult)}}</strong>.
+                    </h6>
+                </div>
+            </fieldset>
+        </div>
+        <!-- Access - end -->
+    </div>
+</div>
+<!-- userDetailsController- end -->

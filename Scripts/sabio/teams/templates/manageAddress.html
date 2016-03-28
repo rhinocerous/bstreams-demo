@@ -1,0 +1,93 @@
+﻿
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="login-brand bg-inverse text-white">
+            <img src="/images/logo-white.png" height="36" class="pull-right" alt="" /> Manage Address
+        </div>
+    </div>
+    <div class="modal-body">
+        <!-- Form - start -->
+        <form id="addressForm" name="address.addressForm" class="form-input-flat" novalidate>
+            <!-- Address1 -->
+            <div class="form-group">
+                <label for="Address1" class="control-label">Address1:</label>
+                <input id="Address1"
+                       type="text"
+                       class="form-control input-lg"
+                       ng-class="{'error': address.showAddressErrors && !address.addressForm.Address1.$valid}"
+                       name="Address1"
+                       placeholder="Street Address, P.O. Box, Company Name, c/o"
+                       ng-model="address.currentAddress.address1" required>     <!--Ng-model should match with the returning JSON obj (data.items)-->
+            </div>
+            <div role="alert" class="help-inline error">
+                <span class="error" ng-show="address.showAddressErrors && address.addressForm.Address1.$error.required">Address1 is required</span>
+            </div>
+
+            <!-- Address2 -->
+            <div class="form-group">
+                <label for="Address2" class="control-label">Address2:</label>
+                <input id="Address2"
+                       type="text"
+                       class="form-control input-lg"
+                       name="Address2"
+                       placeholder="Apartment, Suite, Unit, Building, Floor, etc."
+                       ng-model="address.currentAddress.address2">
+            </div>
+
+            <!-- City -->
+            <div class="form-group">
+                <label for="City" class="control-label">City:</label>
+                <input id="City"
+                       type="text"
+                       class="form-control input-lg"
+                       ng-class="{'error': address.showAddressErrors && !address.addressForm.City.$valid}"
+                       name="City"
+                       ng-model="address.currentAddress.city"
+                       required>
+            </div>
+            <div role="alert" class="help-inline error">
+                <span class="error" ng-show="address.showAddressErrors && address.addressForm.City.$error.required">City is required</span>
+            </div>
+
+            <!-- State -->
+            <div class="form-group">
+                <label for="StateProvinceId" class="control-label">State / Province:</label>
+                <select id="StateProvinceId"
+                        class="form-control input-lg"
+                        ng-class="{'error':address.showAddressErrors && !address.addressForm.StateProvinceId.$valid}"
+                        name="StateProvinceId"
+                        ng-model="address.currentAddress.stateProvinceId"
+                        ng-options="value.stateProvinceId as value.name for value in address.stateProvinceId" required></select>
+            </div>
+            <div role="alert" class="help-inline error">
+                <span class="error" ng-show="address.showAddressErrors && address.addressForm.StateProvinceId.$error.required">State is required</span>
+            </div>
+
+            <!-- Country -->
+            <div class="form-group">
+                <label for="CountryRegionCode" class="control-label">Country / Region:</label>
+                <input id="CountryRegionCode"
+                       type="text"
+                       class="form-control input-lg"
+                       ng-class="{'error': address.showAddressErrors && !address.addressForm.CountryRegionCode.$valid}"
+                       name="CountryRegionCode"
+                       ng-model="address.currentAddress.countryRegionCode" required>
+            </div>
+
+            <!-- TeamID (Hidden) -->
+            <div class="form-group hidden">
+                <input id="teamId"
+                       type="text"
+                       class="form-control"
+                       name="teamsId"
+                       ng-model="address.currentAddress.teamsId">
+            </div>
+        </form>
+        <!-- Form - end -->
+    </div>
+    <!-- Button: Submit -->
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-lg btn-warning" ng-click="address.submitAddressForm()">Submit Address</button>
+    </div>
+</div>
+

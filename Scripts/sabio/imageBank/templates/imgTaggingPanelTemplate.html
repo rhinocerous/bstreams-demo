@@ -1,0 +1,52 @@
+﻿<!--template for image tagging for the imageBank index page-->
+<div class="panel panel-info" ng-show="TC.showImageTagging">
+    <div class="panel-heading">
+        <div class="panel-title pull-left">
+            <h4 class="text-white">Image Tagging</h4>
+        </div>
+        <div class="panel-heading-btn pull-right">
+            <a ng-click="TC.imageTaggingCancel()" class="btn btn-sm ion-close btn-circle btn-grey ion-bigger"></a>
+        </div>
+        <div class="panel-heading"></div>
+    </div>
+    <div class="panel-body" ng-controller="imageTagController as itc">
+        <div class="row">
+            <div class="col-md-8">
+                <div>
+                    <form id="chosenForm" name="itc.chosenForm" novalidate>
+                        <div class="form-group">
+                            <label>Tags: </label>
+                            <select chosen
+                                    options="itc.chosenData"
+                                    ng-change="itc.userTagSelection()"
+                                    data-placeholder="Tags:"
+                                    name="chosenTags"
+                                    id="chosenTags"
+                                    multiple
+                                    ng-model="itc.currentChosenTags"
+                                    ng-options="tags.id as tags.tags for tags in itc.chosenData"></select>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-md-4 center-horizontal">
+                <div>
+                    <form class="form-horizontal" id="categoriesForm" name="itc.categoriesForm" novalidate>
+                        <h5>Image Bank Tag Categories</h5>
+                        <hr>
+                        <div data-ng-repeat="categories in itc.imgBankCategories track by categories.id">
+                            <label class="control-label"><input type="checkbox" ng-model="itc.selectedCategories[categories.id]" ng-change="itc.onCheckboxClick()"> {{categories.tags}}</label>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row center-horizontal">
+            <button type="button" class="btn btn-primary" ng-click="itc.submitTagsForMedia()">Save</button>
+            <br />
+        </div>
+    </div>
+</div>
+
+<!-- end Image Tagging panel -->

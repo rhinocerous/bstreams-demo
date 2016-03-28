@@ -1,0 +1,106 @@
+﻿<div class="modal-content">
+    <div class="modal-header">
+        <div class="login-brand bg-inverse text-white">
+            <img src="/images/logo-white.png" height="36" class="pull-right" alt="" /> Basic Information
+        </div>
+    </div>
+    <div class="modal-body">
+        <div id="displayMediaContainer">
+            <a href="{{basic.mediaFullUrl}}"><img id="displayMediaBox" src="{{basic.mediaFullUrl}}" alt="{{basic.mediaDescription}}" class="media-object img-rounded img-responsive"></a>
+            <br />
+            <p style="text-align:center;">Click image to see the full size image in its uploaded resolution.</p>
+        </div> <!--End of Media Display-->
+        <!-- Teams Form - start -->
+        <form id="teamsForm" name="basic.teamsForm" class="form-input-flat" novalidate>
+            <!-- Title -->
+            <div class="form-group">
+                <!--<label for="Title" class="control-label">Title</label>-->
+                <input id="Title"
+                       type="text"
+                       class="form-control input-lg"
+                       name="title"
+                       placeholder="Title"
+                       ng-class="{'error': basic.showTeamsErrors && !basic.teamsForm.title.$valid}"
+                       ng-model="basic.teams.title"
+                       required />
+                <div role="alert" class="help-inline error">
+                    <span class="error" ng-show="basic.showTeamsErrors && basic.teamsForm.title.$error.required">Title is required</span>
+                </div>
+            </div>
+
+            <!-- Slug -->
+            <div class="form-group">
+                <!--<label for="Slug" class="control-label">Slug</label>-->
+                <input id="Slug"
+                       type="text"
+                       class="form-control input-lg"
+                       name="slug"
+                       placeholder="Slug"
+                       ng-class="{'error': basic.showTeamsErrors && !basic.teamsForm.slug.$valid}"
+                       ng-model="basic.teams.slug"
+                       required />
+                <div role="alert" class="help-inline error">
+                    <span class="error" ng-show="basic.showTeamsErrors && basic.teamsForm.slug.$error.required">Slug is required</span>
+                </div>
+            </div>
+
+            <!-- Description -->
+            <div class="form-group">
+                <!--<label for="Description" class="control-label">Description</label>-->
+                <input id="Description"
+                       type="text"
+                       class="form-control input-lg"
+                       name="description"
+                       placeholder="Description"
+                       ng-class="{'error': basic.showTeamsErrors && !basic.teamsForm.description.$valid}"
+                       ng-model="basic.teams.description"
+                       required />
+                <div role="alert" class="help-inline error">
+                    <span class="error" ng-show="basic.showTeamsErrors && basic.teamsForm.description.$error.required">Description is required</span>
+                </div>
+            </div>
+
+            <!-- Bucket Id -->
+            <div class="form-group">
+                <label for="BucketId" class="control-label">Bucket Id</label>
+                <br />
+                <select id="BucketId"
+                        class="form-control input-lg"
+                        name="bucketId"
+                        ng-model="basic.teams.bucketId"
+                        ng-options="option.bucketId as option.teamName for option in basic.bucketOptions"
+                        required></select>
+                <div role="alert" class="help-inline error">
+                    <span class="error" ng-show="basic.showTeamsErrors && basic.teamsForm.bucketId.$error.required">User Bucket is required</span>
+                </div>
+            </div>
+
+            <!-- Active -->
+            <div class="form-group">
+                <label>
+                    <input id="Active"
+                           type="checkbox"
+                           name="Active"
+                           value="false"
+                           ng-model="basic.teams.active"
+                           ng-true-value="true"
+                           ng-false-value="false"> Active
+                </label>
+            </div>
+
+            <!-- Hidden: Id - MediaId -->
+            <div class="form-group">
+                <input id="MediaId"
+                       type="hidden"
+                       name="MediaId"
+                       ng-model="basic.teams.mediaId">
+            </div>
+        </form>
+    </div>
+    <!-- Button: Submit -->
+    <div class="modal-footer">
+        <button class="btn btn-lg btn-default" type="button" ng-click="basic.takeUserToUpload()">Upload A New Avatar</button>
+        <button class="btn btn-lg btn-lime" type="submit" ng-click="basic.submitTeamsInformation()">Submit Changes</button>
+    </div>
+</div>
+

@@ -1,0 +1,132 @@
+﻿<style>
+    #main {
+        margin-top: 15px;
+    }
+
+    #breadcrumb-body {
+        z-index: 1;
+    }
+</style>
+
+<div id="main">
+    <!--begin panel header with tabs-->
+    <div class="row">
+        <div class="col-md-2">
+            <div class="tabs-left panel panel-inverse">
+                <div class="panel-heading ion-bigger">
+                   {{tagsBrowser.heading}} categories
+                    <button ng-show="tagsBrowser.mainCatSelected" ng-click="tagsBrowser.openTagModal(tagsBrowser.tagId, 'mainCat', 'Edit', tagsBrowser.selectedTag)" class="btn btn-primary btn-xs pull-right">Edit</button>
+                </div>
+                <div class="panel-body">
+                    <p class="mainCat" data-ng-repeat="tag in tagsBrowser.mainCategories track by tag.id">
+                        <button class="btn btn-block"
+                                ng-click="tagsBrowser.onCategoryClick(tag.id, tag)"
+                                ng-class="{'btn-primary': tagsBrowser.isActive(tag.id), 'btn-grey': !tagsBrowser.isActive(tag.id)}">
+                            <i ng-show="tagsBrowser.isActive(tag.id)" class="ion-arrow-right-a pull-right"></i>
+                            {{tag.tags}}
+                        </button>
+                    </p>
+                    <p>
+                        <button type="button" class="btn btn-grey btn-xs pull-right" ng-click="tagsBrowser.openTagModal(tagsBrowser.tagId, 'mainCat', 'Add')">Add +</button>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!--begin subcategories container-->
+        <div class="col-md-10">
+            <div class="col-md-2" data-ng-repeat="cat in tagsBrowser.subCategories track by cat.id" ng-show="tagsBrowser.subCategoriesExist">
+                <div class="panel panel-inverse">
+                    <div class="panel-heading"><a class="text-white" ng-click="tagsBrowser.openTagModal(cat.parentId, 'subCat', 'Edit', cat)">{{cat.tags}}</a></div>
+                    <div class="panel-body">
+                        <a data-ng-repeat="childTag in cat.children track by childTag.id" class="text-inverse" ng-click="tagsBrowser.openTagModal(childTag.parentId, 'childTag', 'Edit', childTag)"><p>{{childTag.tags}}</p></a>
+                        <p><button type="button" class="btn btn-grey btn-xs" ng-click="tagsBrowser.openTagModal(cat.id,'childTag', 'Add')">Add +</button></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1">
+                <button type="button" class="btn btn-inverse btn-xs" ng-show="tagsBrowser.mainCatSelected" ng-click="tagsBrowser.openTagModal(tagsBrowser.selectedTab, 'subCat', 'Add')">Add +</button>
+
+            </div>
+        </div>
+        <!--end subcategories container-->
+    </div>
+</div>
+<!--end main container-->
+
+
+<!--begin modal container-->
+<script type="text/ng-template" id="taxonomyMgrModalContent.html">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 ng-model="mc.addEditType">{{mc.addEditType}}</h4>
+            </div>
+            <div class="modal-body">
+                <!--begin form-->
+                <form id="mc.addEditTagForm" name="mc.addEditTagForm" ng-submit="mc.addEditTag()" novalidate>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group-sm">
+                                <label for="tags" class="control-label">Tag</label>
+                                <input id="tags" type="text"
+                                       class="form-control input-sm"
+                                       ng-class="{'error': mc.showTagErrors && !mc.addEditTagForm.tags.$valid}"
+                                       name="tags"
+                                       ng-model="mc.tag.tags"
+                                       placeholder="tag"
+                                       ng-blur="mc.makeSlug()"
+                                       required />
+                                <div role="alert" class="help-inline error">
+                                    <span class="error" ng-show="mc.showTagErrors && mc.addEditTagForm.tag.$error.required">Tag is requierd</span>
+                                </div>
+                            </div>
+                            <div class="form-group-sm">
+                                <label for="slug" class="control-label">Slug</label>
+                                <input id="slug" type="text"
+                                       class="form-control input-sm"
+                                       ng-class="{'error': mc.showTagErrors && !mc.addEditTagForm.slug.$valid}"
+                                       name="slug"
+                                       ng-model="mc.tag.slug"
+                                       placeholder="slug"
+                                       required />
+                                <div role="alert" class="help-inline error">
+                                    <span class="error" ng-show="mc.showTagErrors && mc.addEditTagForm.slug.$error.required">Slug is requierd</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group-sm">
+                                <label for="synonymId" class="control-label">Synonym(s)</label>
+                                <select chosen
+                                        id="synonymId"
+                                        class="form-control input-sm"
+                                        multiple
+                                        name="synonymId"
+                                        ng-model="mc.tag.synonymId"
+                                        ng-options="tag.id as tag.tags for tag in mc.chosenData"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="button-group pull-right" ng-show="!mc.deleteRequest">
+                        <button type="button" class="btn btn-grey btn-sm" ng-click="mc.cancel()">Cancel</button>
+                        <button type="button" class="btn btn-danger btn-sm" ng-show="mc.editRequest" ng-click="mc.delete()">Delete</button>
+                        <button type="submit" class="btn btn-success btn-sm ">Submit</button>
+                    </div>
+                </form>
+                <!--end form-->
+                <div class="modal-footer">
+                    <div class="well well-sm" ng-show="mc.deleteRequest">
+                        <h4 class="text-danger text-left">The following tags will be deleted:</h4>
+                        <ul class="list-unstyled text-left">
+                            <li data-ng-repeat="tag in mc.deleteRequestList track by tag.id">{{tag.tags}}</li>
+                        </ul>
+                        <button type="button" class="btn btn-grey btn-sm" ng-click="mc.cancelDelete()">Cancel</button>
+                        <button type="button" class="btn btn-danger btn-sm" ng-click="mc.confirmDelete()">Confirm Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<!--end modal container-->

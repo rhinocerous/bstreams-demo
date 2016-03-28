@@ -1,0 +1,216 @@
+﻿<!-- modalUsersAddController - begin -->
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 data-ng-model="modalUsersAddBoard.headerText">{{modalUsersAddBoard.headerText}}</h4>
+        </div>
+        <div class="modal-body">
+            <!-- Form - Users - begin -->
+            <form class="form-input-flat"
+                  id="formUsers"
+                  name="modalUsersAddBoard.formUsers"
+                  novalidate>
+                <div class="col-md-8">
+                    <!-- Basic Information - begin -->
+                    <fieldset>
+                        <legend>Basic Information</legend>
+                        <div class="col-md-6">
+                            <!-- First Name -->
+                            <div class="form-group">
+                                <label for="FirstName" class="control-label">First Name</label>
+                                <input type="text"
+                                       class="form-control input-sm"
+                                       data-ng-class="{'error': modalUsersAddBoard.showFormUsersErrors && !modalUsersAddBoard.formUsers.FirstName.$valid}"
+                                       id="FirstName"
+                                       name="FirstName"
+                                       placeholder="First Name"
+                                       data-ng-model="modalUsersAddBoard.inputFormUsers.firstName"
+                                       required />
+                                <div role="alert" class="users-inline error">
+                                    <span class="error"
+                                          data-ng-show="modalUsersAddBoard.showFormUsersErrors && modalUsersAddBoard.formUsers.FirstName.$error.required">
+                                        First Name is required
+                                    </span>
+                                </div>
+                            </div>
+                            <!-- Last Name -->
+                            <div class="form-group">
+                                <label for="LastName" class="control-label">Last Name</label>
+                                <input type="text"
+                                       class="form-control input-sm"
+                                       data-ng-class="{'error': modalUsersAddBoard.showFormUsersErrors && !modalUsersAddBoard.formUsers.LastName.$valid}"
+                                       id="LastName"
+                                       name="LastName"
+                                       placeholder="Last Name"
+                                       data-ng-model="modalUsersAddBoard.inputFormUsers.lastName"
+                                       required />
+                                <div role="alert" class="users-inline error">
+                                    <span class="error"
+                                          data-ng-show="modalUsersAddBoard.showFormUsersErrors && modalUsersAddBoard.formUsers.LastName.$error.required">
+                                        Last Name is required
+                                    </span>
+                                </div>
+                            </div>
+                            <!-- Email -->
+                            <div class="form-group">
+                                <label for="Email" class="control-label">Email</label>
+                                <input type="email"
+                                       class="form-control input-sm"
+                                       data-ng-class="{'error': modalUsersAddBoard.showFormUsersErrors && !modalUsersAddBoard.formUsers.Email.$valid}"
+                                       id="Email"
+                                       name="Email"
+                                       placeholder="Email"
+                                       data-ng-model="modalUsersAddBoard.inputFormUsers.email"
+                                       required
+                                       email />
+                                <div role="alert" class="users-inline error">
+                                    <span class="error"
+                                          data-ng-show="modalUsersAddBoard.showFormUsersErrors && modalUsersAddBoard.formUsers.Email.$error.required">
+                                        Email is required
+                                    </span>
+                                    <span class="error"
+                                          data-ng-show="modalUsersAddBoard.showFormUsersErrors && modalUsersAddBoard.formUsers.Email.$error.email">
+                                        Enter valid email with format name@domain.com
+                                    </span>
+                                </div>
+                            </div>
+                            <!-- Phone Number -->
+                            <div class="form-group">
+                                <label for="Phone" class="control-label">Phone Number</label>
+                                <input type="tel"
+                                       class="form-control input-sm"
+                                       data-ng-class="{'error': modalUsersAddBoard.showFormUsersErrors && !modalUsersAddBoard.formUsers.Phone.$valid}"
+                                       id="Phone"
+                                       name="Phone"
+                                       placeholder="Phone Number"
+                                       data-ng-model="modalUsersAddBoard.inputFormUsers.phone" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="SubscriptionType" class="control-label">Subscription Type</label>
+                                <select class="form-control input-sm"
+                                        data-ng-class="{'error' : modalUsersAddBoard.showFormUsersErrors && !modalUsersAddBoard.formUsers.SubscriptionType.$valid}"
+                                        id="SubscriptionType"
+                                        name="SubscriptionType"
+                                        value="{{option.subscriptionType}}"
+                                        data-ng-model="modalUsersAddBoard.subscriptionType"
+                                        data-ng-options="option.subscriptionType as option.subscriptionName for option in modalUsersAddBoard.subscriptionTypeOptions"
+                                        required
+                                        data-ng-change="modalUsersAddBoard.subscriptionTypeChange(modalUsersAddBoard.inputFormUsers.subscriptionType)">
+                                </select>
+                                <div role="alert" class="users-inline error">
+                                    <span class="error"
+                                          data-ng-show="modalUsersAddBoard.showFormUsersErrors && modalUsersAddBoard.formUsers.SubscriptionType.$error.required">
+                                        Subscription Type is required
+                                    </span>
+                                </div>
+                            </div>
+                            <!-- Dropdown - Teams Id -->
+                            <div class="form-group">
+                                <label for="TeamsId" class="control-label">User Team</label>
+                                <select class="form-control input-sm"
+                                        data-ng-class="{'error' : modalUsersAddBoard.showFormUsersErrors && !modalUsersAddBoard.formUsers.TeamsId.$valid}"
+                                        id="TeamsId"
+                                        name="TeamsId"
+                                        value="{{option.teamsId}}"
+                                        data-ng-model="modalUsersAddBoard.inputFormUsers.teamsId"
+                                        data-ng-options="option.teamsId as option.title for option in modalUsersAddBoard.teamsOptions"
+                                        required>
+                                </select>
+                                <div role="alert" class="users-inline error">
+                                    <span class="error"
+                                          data-ng-show="modalUsersAddBoard.showFormUsersErrors && modalUsersAddBoard.formUsers.TeamsId.$error.required">
+                                        User Team is required
+                                    </span>
+                                </div>
+                            </div>
+                            <!-- Checkbox - Active -->
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox"
+                                           id="Active"
+                                           name="Active"
+                                           data-ng-model="modalUsersAddBoard.inputFormUsers.active"
+                                           data-ng-true-value="true"
+                                           data-ng-false-value="false"
+                                           data-ng-checked="modalUsersAddBoard.isCheckedActive">
+                                    Active
+                                </label>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <!-- Basic Information - end -->
+                </div>
+                <div class="col-md-4">
+                    <!-- Password - begin -->
+                    <fieldset>
+                        <legend>Password</legend>
+                        <!-- Password -->
+                        <div class="form-group">
+                            <label for="Password" class="control-label">Password</label>
+                            <input type="password"
+                                   class="form-control input-sm"
+                                   data-ng-class="{'error' : modalUsersAddBoard.showFormUsersErrors && !modalUsersAddBoard.formUsers.Password.$valid}"
+                                   id="Password"
+                                   name="Password"
+                                   placeholder="Password"
+                                   data-ng-model="modalUsersAddBoard.inputFormUsers.password"
+                                   required
+                                   data-ng-pattern="/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$!%*?&])[A-Za-z\d$!%*?&]{6,}/" />
+                            <div role="alert" class="users-inline error">
+                                <span class="error"
+                                      data-ng-show="modalUsersAddBoard.showFormUsersErrors && modalUsersAddBoard.formUsers.Password.$error.required">
+                                    Password is required
+                                </span>
+                                <span class="error"
+                                      data-ng-show="modalUsersAddBoard.showFormUsersErrors && modalUsersAddBoard.formUsers.Password.$error.pattern">
+                                    Passwords must have at least 6 characters, including one non-letter/non-digit special character, one lowercase letter, one uppercase letter, and one number.
+                                </span>
+                            </div>
+                        </div>
+                        <!-- Repeat Password -->
+                        <div class="form-group">
+                            <label for="RepeatPassword" class="control-label">Confirm Password</label>
+                            <input type="password"
+                                   class="form-control input-sm"
+                                   data-ng-class="{'error' : modalUsersAddBoard.showFormUsersErrors && !modalUsersAddBoard.formUsers.RepeatPassword.$valid}"
+                                   id="RepeatPassword"
+                                   name="RepeatPassword"
+                                   placeholder="Re-enter Password"
+                                   data-ng-model="modalUsersAddBoard.inputFormUsers.repeatPassword"
+                                   required
+                                   pw-check="Password"
+                                   data-ng-pattern="/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$!%*?&])[A-Za-z\d$!%*?&]{6,}/" />
+                            <div role="alert" class="users-inline error">
+                                <span class="error"
+                                      data-ng-show="modalUsersAddBoard.showFormUsersErrors && modalUsersAddBoard.formUsers.RepeatPassword.$error.required">
+                                    Pls re-enter Password
+                                </span>
+                                <span class="error"
+                                      data-ng-show="modalUsersAddBoard.showFormUsersErrors && modalUsersAddBoard.formUsers.RepeatPassword.$error.pwcheck">
+                                    Passwords do not match
+                                </span>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <!-- Password - end -->
+                    <!-- Hidden - begin -->
+                    <!-- to differentiate between users added using this view (1) or the bulkupsert feature (2) -->
+                    <input type="hidden"
+                           id="SourceId"
+                           name="SourceId"
+                           data-ng-model="modalUsersAddBoard.inputFormUsers.sourceId"
+                           value="2" />
+                    <!-- Hidden - end -->
+                </div>
+            </form>
+            <!-- Form - Users - end -->
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary m-b-5" data-ng-click="modalUsersAddBoard.cancel()">Cancel</button>
+        <button type="button" class="btn btn-inverse m-b-5" data-ng-click="modalUsersAddBoard.submit()">Submit</button>
+    </div>
+</div>
+<!-- modalUsersAddController - end -->

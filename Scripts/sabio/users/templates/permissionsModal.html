@@ -1,0 +1,58 @@
+﻿
+
+    
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <!--
+                <h3 class="modal-title">Users Modal</h3>
+                -->
+                <h4 data-ng-model="userBucketsBoard.headerText">{{userBucketsBoard.headerText}}</h4>
+            </div>
+            <div class="modal-body">
+
+                <form class="form-input-flat"
+                      id="formUsers"
+                      name="userBucketsBoard.formUsers"
+                      novalidate>
+
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <!-- Roles -->
+                            <fieldset>
+                                <legend>Permissions</legend>
+                                <div class="form-group">                                  
+                                        <label ng-repeat="right in userBucketsBoard.rightsTypes">
+                                            &nbsp;
+                                            <input type="checkbox"
+                                                   checkbox-group
+                                                   id="Active"
+                                                   name="Active"
+                                                   ng-change="userBucketsBoard.checkBoxes(right.id, checked)"
+                                                   data-ng-true-value="!null"
+                                                   data-ng-false-value="null"
+                                                   data-checklist-model="userBucketsBoard.rightsArray"
+                                                   data-checklist-value="right.id">{{right.text}}
+                                        </label>
+                                        <br />                                    
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </form>
+
+                
+             
+                </div>
+            </div>
+        </div>
+   
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary m-b-5" data-ng-click="userBucketsBoard.cancel()">Cancel</button>
+                    <button type="button" class="btn btn-inverse m-b-5" data-ng-click="userBucketsBoard.submit()">Submit</button>
+                </div>
+
+
+

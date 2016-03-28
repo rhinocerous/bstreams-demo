@@ -1,0 +1,133 @@
+﻿<!-- modalTeamsController - begin -->
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 data-ng-model="modalTeamsBoard.headerText">{{modalTeamsBoard.headerText}}</h4>
+        </div>
+        <div class="modal-body">
+            <!-- Form - Teams - begin -->
+            <form class="form-input-flat"
+                  id="formTeams"
+                  name="modalTeamsBoard.formTeams"
+                  novalidate>
+                <div class="col-md-3 pull-right">
+                    <input type="hidden"
+                           class="form-control input-sm"
+                           id="ParentTeamsId"
+                           name="ParentTeamsId" />
+                    <!--
+                    {{modalTeamsBoard.parentTeamsId}}
+                    -->
+                </div>
+                <!-- Title -->
+                <div class="form-group">
+                    <label for="Title" class="control-label">Title</label>
+                    <input type="text"
+                           class="form-control input-sm"
+                           data-ng-class="{'error': modalTeamsBoard.showFormTeamsErrors && !modalTeamsBoard.formTeams.Title.$valid}"
+                           id="Title"
+                           name="Title"
+                           placeholder="Title"
+                           data-ng-model="modalTeamsBoard.inputFormTeams.title"
+                           data-ng-blur="modalTeamsBoard.keyUpSlug()"
+                           required />
+                    <div role="alert" class="teams-inline error">
+                        <span class="error"
+                              data-ng-show="modalTeamsBoard.showFormTeamsErrors && modalTeamsBoard.formTeams.Title.$error.required">
+                            Title is required
+                        </span>
+                    </div>
+                </div>
+                <!-- Slug -->
+                <div class="form-group">
+                    <label for="Slug" class="control-label">Slug</label>
+                    <input type="text"
+                           class="form-control input-sm"
+                           data-ng-class="{'error': modalTeamsBoard.showFormTeamsErrors && !modalTeamsBoard.formTeams.Slug.$valid}"
+                           id="Slug"
+                           name="Slug"
+                           placeholder="Slug"
+                           data-ng-model="modalTeamsBoard.inputFormTeams.slug"
+                           data-ng-disabled="modalTeamsBoard.isDisabledSlug"
+                           required />
+                    <div role="alert" class="teams-inline error">
+                        <span class="error"
+                              data-ng-show="modalTeamsBoard.showFormTeamsErrors && modalTeamsBoard.formTeams.Slug.$error.required">
+                            Slug is required
+                        </span>
+                    </div>
+                </div>
+                <!-- Description -->
+                <div class="form-group">
+                    <label for="Description" class="control-label">Description</label>
+                    <input type="text"
+                           class="form-control input-sm"
+                           data-ng-class="{'error': modalTeamsBoard.showFormTeamsErrors && !modalTeamsBoard.formTeams.Description.$valid}"
+                           id="Description"
+                           name="Description"
+                           placeholder="Description"
+                           data-ng-model="modalTeamsBoard.inputFormTeams.description"
+                           required />
+                    <div role="alert" class="teams-inline error">
+                        <span class="error"
+                              data-ng-show="modalTeamsBoard.showFormTeamsErrors && modalTeamsBoard.formTeams.Description.$error.required">
+                            Description is required
+                        </span>
+                    </div>
+                </div>
+                <!-- Dropdown - Subscription Type -->
+                <div class="form-group">
+                    <label for="SubscriptionTypeDropDown" class="control-label">Subscription Type<!--User Bucket--></label>
+                    <br />  <!--value="{{option.subscriptionType}}"-->
+                    <select class="form-control input-sm"
+                            data-ng-class="{'error': modalTeamsBoard.showFormTeamsErrors && !modalTeamsBoard.formTeams.SubscriptionTypeDropDown.$valid}"
+                            id="SubscriptionTypeDropDown"
+                            name="SubscriptionTypeDropDown"
+                            data-ng-model="modalTeamsBoard.inputFormTeams.subscriptionType"
+                            data-ng-options="option.subscriptionType as option.subscriptionName for option in modalTeamsBoard.subscriptionTypeOptions"
+                            required></select>
+                    <div role="alert" class="teams-inline error">
+                        <span class="error"
+                              data-ng-show="modalTeamsBoard.showFormTeamsErrors && modalTeamsBoard.formTeams.SubscriptionTypeDropDown.$error.required">
+                            Subscription Type is required
+                        </span>
+                    </div>
+                    <!--
+                    data-ng-disabled="modalTeamsBoard.isDisabledBucketId"
+                    -->
+                </div>
+                <!-- Checkbox - Active -->
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox"
+                               id="Active"
+                               name="Active"
+                               data-ng-model="modalTeamsBoard.inputFormTeams.active"
+                               value="false"
+                               data-ng-true-value="true"
+                               data-ng-false-value="false"
+                               data-ng-checked="modalTeamsBoard.isCheckedActive">
+                        Active
+                    </label>
+                    <!--
+                    data-ng-disabled="modalTeamsBoard.isDisabledActive"
+                    -->
+                </div>
+                <!-- Hidden - begin -->
+                <!-- to differentiate between teams added using this view (1) or the bulkupsert feature (2) -->
+                <input type="hidden"
+                       id="SourceId"
+                       name="SourceId"
+                       data-ng-model="modalTeamsBoard.inputFormTeams.sourceId"
+                       value="2" />
+                <!-- Hidden - end -->
+            </form>
+            <!-- Form - Teams - end -->
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary m-b-5" data-ng-click="modalTeamsBoard.cancel()">Cancel</button>
+        <button type="submit" class="btn btn-inverse m-b-5" data-ng-click="modalTeamsBoard.submit()">Submit</button>
+    </div>
+</div>
+<!-- modalTeamsController - end -->

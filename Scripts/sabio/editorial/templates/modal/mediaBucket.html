@@ -1,0 +1,67 @@
+﻿<div class="modal-dialog ">
+    <div class="modal-content">
+        <div class="modal-header">
+
+            <!--<h3 class="modal-title">{{bucket.editorial.title}}</h3>
+            <h5>Editorial Media Bucket</h5>-->
+            <a ng-click="bucket.loadParent(0)">Media Library</a>
+
+            <span ng-repeat="folder in bucket.crumbs track by folder.folderId">
+                / <a ng-click="bucket.loadParent(folder.folderId)">{{folder.folderName}}</a>
+            </span>
+            
+        </div>
+        <div class="modal-body media-bucket">
+            <div class="row">
+                <div class="col-md-8">
+                    <!-- begin widget -->
+                    <div class="widget widget-gallery">
+                        <div class="widget-header bg-info">
+                            <h4 class="text-white">Media Library</h4>
+                        </div>
+                        <ul class="widget-todolist">
+                            <li class="widget-todolist-title">Folders</li>
+                            <li ng-repeat="folder in bucket.currentLevel.folderInfo track by folder.folderId">
+                                <div class="info">
+                                    <a ng-click="bucket.selectFolder(folder)">{{folder.folderName}}</a>
+                                </div>
+                            </li>
+                            
+                            <li class="widget-todolist-title">Medias</li>
+                            <li>
+                                <ul class="widget-gallery-list clearfix">
+                                    <li ng-repeat="media in bucket.currentLevel.mediaInfo track by media.mediaId">
+                                        <a ng-click="bucket.selectMedia(media)">
+                                            <img alt="" ng-src="{{media.mediaFullUrl}}">
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+
+                        </ul>
+                    </div>
+                    <!-- end widget -->
+                </div>
+                <div class="col-md-4">
+                    <div class="widget widget-gallery">
+                        <div class="widget-header bg-info">
+                            <h4 class="text-white">Current Selection</h4>
+                        </div>
+                        <ul class="widget-gallery-list clearfix">
+                            <li ng-repeat="media in bucket.selectedMedias track by media.mediaId">
+                                <a ng-click="bucket.unselectMedia(media)">
+                                    <img alt="" ng-src="{{media.mediaFullUrl}}">
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary m-b-5" data-ng-click="bucket.cancel()">Cancel</button>
+        <button type="submit" class="btn btn-inverse m-b-5" data-ng-click="bucket.done()">Done</button>
+    </div>
+</div>

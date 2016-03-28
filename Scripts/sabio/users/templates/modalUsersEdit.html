@@ -1,0 +1,242 @@
+﻿<!-- modalUsersEditController - begin -->
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 data-ng-model="modalUsersEditBoard.headerText">{{modalUsersEditBoard.headerText}}</h4>
+        </div>
+        <div class="modal-body">
+            <!-- Form - Users - begin -->
+            <form class="form-input-flat"
+                  id="formUsers"
+                  name="modalUsersEditBoard.formUsers"
+                  novalidate>
+                    <div class="col-md-6">
+                        <!-- Basic Information - begin -->
+                        <fieldset>
+                            <legend>Basic Information</legend>
+                            <div class="col-md-6">
+                                <!-- User Id -->
+                                <div class="form-group">
+                                    <label for="Id" class="control-label">User Id</label>
+                                    <input type="text"
+                                           class="form-control input-sm"
+                                           data-ng-class="{'error': modalUsersEditBoard.showFormUsersErrors && !modalUsersEditBoard.formUsers.Id.$valid}"
+                                           id="Id"
+                                           name="Id"
+                                           placeholder="User Id"
+                                           data-ng-model="modalUsersEditBoard.inputFormUsers.id"
+                                           readonly />
+                                </div>
+                                <!-- First Name -->
+                                <div class="form-group">
+                                    <label for="FirstName" class="control-label">First Name</label>
+                                    <input type="text"
+                                           class="form-control input-sm"
+                                           data-ng-class="{'error': modalUsersEditBoard.showFormUsersErrors && !modalUsersEditBoard.formUsers.FirstName.$valid}"
+                                           id="FirstName"
+                                           name="FirstName"
+                                           placeholder="First Name"
+                                           data-ng-model="modalUsersEditBoard.inputFormUsers.firstName"
+                                           required />
+                                    <div role="alert" class="users-inline error">
+                                        <span class="error"
+                                              data-ng-show="modalUsersEditBoard.showFormUsersErrors && modalUsersEditBoard.formUsers.FirstName.$error.required">
+                                            First Name is required
+                                        </span>
+                                    </div>
+                                </div>
+                                <!-- Last Name -->
+                                <div class="form-group">
+                                    <label for="LastName" class="control-label">Last Name</label>
+                                    <input type="text"
+                                           class="form-control input-sm"
+                                           data-ng-class="{'error': modalUsersEditBoard.showFormUsersErrors && !modalUsersEditBoard.formUsers.LastName.$valid}"
+                                           id="LastName"
+                                           name="LastName"
+                                           placeholder="Last Name"
+                                           data-ng-model="modalUsersEditBoard.inputFormUsers.lastName"
+                                           required />
+                                    <div role="alert" class="users-inline error">
+                                        <span class="error"
+                                              data-ng-show="modalUsersEditBoard.showFormUsersErrors && modalUsersEditBoard.formUsers.LastName.$error.required">
+                                            Last Name is required
+                                        </span>
+                                    </div>
+                                </div>
+                                <!-- Email -->
+                                <div class="form-group">
+                                    <label for="Email" class="control-label">Email</label>
+                                    <input type="email"
+                                           class="form-control input-sm"
+                                           data-ng-class="{'error': modalUsersEditBoard.showFormUsersErrors && !modalUsersEditBoard.formUsers.Email.$valid}"
+                                           id="Email"
+                                           name="Email"
+                                           placeholder="Email"
+                                           data-ng-model="modalUsersEditBoard.inputFormUsers.email"
+                                           required
+                                           email />
+                                    <div role="alert" class="users-inline error">
+                                        <span class="error"
+                                              data-ng-show="modalUsersEditBoard.showFormUsersErrors && modalUsersEditBoard.formUsers.Email.$error.required">
+                                            Email is required
+                                        </span>
+                                        <span class="error"
+                                              data-ng-show="modalUsersEditBoard.showFormUsersErrors && modalUsersEditBoard.formUsers.Email.$error.email">
+                                            Enter valid email with format name@domain.com
+                                        </span>
+                                    </div>
+                                </div>
+                                <!-- Phone Number -->
+                                <div class="form-group">
+                                    <label for="Phone" class="control-label">Phone Number</label>
+                                    <input type="tel"
+                                           class="form-control input-sm"
+                                           data-ng-class="{'error': modalUsersEditBoard.showFormUsersErrors && !modalUsersEditBoard.formUsers.Phone.$valid}"
+                                           id="Phone"
+                                           name="Phone"
+                                           placeholder="Phone Number"
+                                           data-ng-model="modalUsersEditBoard.inputFormUsers.phone" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="SubscriptionType" class="control-label">Subscription Type</label>
+                                    <select class="form-control input-sm"
+                                            data-ng-class="{'error' : modalUsersEditBoard.showFormUsersErrors && !modalUsersEditBoard.formUsers.SubscriptionType.$valid}"
+                                            id="SubscriptionType"
+                                            name="SubscriptionType"
+                                            value="{{option.subscriptionType}}"
+                                            data-ng-model="modalUsersEditBoard.subscriptionType"
+                                            data-ng-options="option.subscriptionType as option.subscriptionName for option in modalUsersEditBoard.subscriptionOptions"
+                                            data-ng-change="modalUsersEditBoard.subscriptionTypeChange(modalUsersEditBoard.inputFormUsers.subscriptionType)"
+                                            required>
+                                    </select>
+                                    <div role="alert" class="users-inline error">
+                                        <span class="error"
+                                              data-ng-show="modalUsersEditBoard.showFormUsersErrors && modalUsersEditBoard.formUsers.SubscriptionType.$error.required">
+                                            Subscription Type is required
+                                        </span>
+                                    </div>
+                                </div>
+                                <!-- Dropdown - Teams Id -->
+                                <div class="form-group">
+                                    <label for="TeamsId" class="control-label">User Team</label>
+                                    <select class="form-control input-sm"
+                                            data-ng-class="{'error' : modalUsersEditBoard.showFormUsersErrors && !modalUsersEditBoard.formUsers.TeamsId.$valid}"
+                                            id="TeamsId"
+                                            name="TeamsId"
+                                            value="{{option.teamsId}}"
+                                            data-ng-model="modalUsersEditBoard.inputFormUsers.teamsId"
+                                            data-ng-options="option.teamsId as option.title for option in modalUsersEditBoard.teamsOptions"
+                                            required>
+                                    </select>
+                                    <div role="alert" class="users-inline error">
+                                        <span class="error"
+                                              data-ng-show="modalUsersEditBoard.showFormUsersErrors && modalUsersEditBoard.formUsers.TeamsId.$error.required">
+                                            User Team is required
+                                        </span>
+                                    </div>
+                                </div>
+                                <!-- Checkbox - Active -->
+                                <div class="form-group">
+                                    <label>
+                                        <input type="checkbox"
+                                               id="Active"
+                                               name="Active"
+                                               data-ng-model="modalUsersEditBoard.inputFormUsers.active"
+                                               data-ng-true-value="true"
+                                               data-ng-false-value="false"
+                                               data-ng-checked="modalUsersEditBoard.isCheckedActive">
+                                        Active
+                                    </label>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <!-- Basic Information - end -->
+                    </div>
+                    <div class="col-md-3">
+                        <!-- Access - begin -->
+                        <fieldset>
+                            <legend>Access</legend>
+                            <!-- Frontend Access -->
+                            <div class="form-group">
+                                <label for="FrontendAccess">Frontend Access</label>
+                                <select class="form-control input-sm"
+                                        id="FrontendAccess"
+                                        name="FrontendAccess"
+                                        data-ng-model="modalUsersEditBoard.inputFormUsers.frontendAccess">
+                                    <option value=""> Select One: </option>
+                                    <option value="regular">Regular</option>
+                                    <option value="ffr">Regular with Full Folder Rights</option>
+                                    <option value="admin">Admin</option>
+                                </select>
+                            </div>
+                            <!-- Backend Access -->
+                            <div class="form-group">
+                                <label for="BackendAccess">Backend Access</label>
+                                <button class="btn btn-xs btn-info"
+                                        id="BackendAccess">
+                                    Customize
+                                </button>
+                            </div>
+                            <!-- Email Verified -->
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox"
+                                           id="EmailVerified"
+                                           name="EmailVerified"
+                                           data-ng-model="modalUsersEditBoard.inputFormUsers.emailVerified"
+                                           value="false"
+                                           data-ng-true-value="true"
+                                           data-ng-false-value="false">
+                                    Email Verified
+                                </label>
+                            </div>
+                            <!-- Administrator -->
+                            <div>
+                                <label>
+                                    <input type="checkbox"
+                                           id="Administrator"
+                                           name="Administrator"
+                                           data-ng-model="modalUsersEditBoard.inputFormUsers.administrator"
+                                           value="false"
+                                           data-ng-true-value="true"
+                                           data-ng-false-value="false">
+                                    Administrator
+                                </label>
+                            </div>
+                        </fieldset>
+                        <!-- Access - end -->
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <!-- Roles - begin -->
+                            <fieldset>
+                                <legend>Roles</legend>
+                                <div class="form-group" data-ng-repeat="role in modalUsersEditBoard.roleOptions track by role.roleId">
+                                    <label>
+                                        &nbsp;
+                                        <input type="checkbox"
+                                               id="Role"
+                                               name="Role"
+                                               value="{{role.roleId}}"
+                                               data-checklist-model="modalUsersEditBoard.user.roleSelected"
+                                               data-checklist-value="role"
+                                               data-ng-change="modalUsersEditBoard.roleCheck(role, checked)">
+                                        {{role.roleName}}
+                                    </label><br />
+                                </div>
+                            </fieldset>
+                            <!-- Roles - end -->
+                        </div>
+                    </div>
+            </form>
+            <!-- Form - Users - end -->
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary m-b-5" data-ng-click="modalUsersEditBoard.cancel()">Cancel</button>
+            <button type="button" class="btn btn-inverse m-b-5" data-ng-click="modalUsersEditBoard.submit()">Submit</button>
+        </div>
+    </div>
+</div>
+<!-- modalUsersEditController - end -->

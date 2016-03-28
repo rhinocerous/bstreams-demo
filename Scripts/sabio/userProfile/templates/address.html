@@ -1,0 +1,93 @@
+﻿<!--Angularized from Views/Addresses/UpdateNg-->
+<div class="user-content bg-white">
+    <div class="modal-header">
+        <div class="login-brand bg-inverse text-white">
+            <img src="/images/logo-white.png" height="36" class="pull-right" alt="" /> Update Address
+        </div>
+    </div>
+
+    <div class="modal-body">
+        <!--<div class="container">-->
+            <form class="form-input-flat" id="addressForm" name="addressCtrl.addressForm" ng-submit="addressCtrl.updateAddress()" novalidate>
+                <div class="row">
+                    <div class="col-md-6" id="leftHandColumn">
+                        <div class="form-group">
+                            <label for="Address1">Address1: </label>
+                            <input type="text"
+                                   class="form-control"
+                                   ng-class="{'error':addressCtrl.showEditAddressErrors && !addressCtrl.addressForm.address1.$valid}"
+                                   placeholder="Street Address, P.O. Box, company name, c/o"
+                                   name="address1"
+                                   id="address1"
+                                   ng-model="addressCtrl.editAddress.address1"
+                                   required>
+                        </div>
+                        <!--Error Message:-->
+                        <div role="alert" class="help-inline error">
+                            <span class="error" ng-show="addressCtrl.showEditAddressErrors && addressCtrl.addressForm.address1.$error.required">Please enter a valid address</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="Address2">Address2: </label>
+                            <input type="text"
+                                   class="form-control"
+                                   placeholder="Apartment, suite, unit, building, floor, etc."
+                                   name="address2"
+                                   id="address2"
+                                   ng-model="addressCtrl.editAddress.address2">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="City">City: </label>
+                            <input type="text"
+                                   class="form-control"
+                                   ng-class="{'error': addressCtrl.showEditAddressErrors && !addressCtrl.addressForm.city.$valid}"
+                                   placeholder="City"
+                                   name="city"
+                                   id="city"
+                                   ng-model="addressCtrl.editAddress.city"
+                                   required>
+                        </div>
+                        <!--Error Message:-->
+                        <div role="alert" class="help-inline error">
+                            <span class="error" ng-show="addressCtrl.showEditAddressErrors && addressCtrl.addressForm.city.$error.required">Please include your city</span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6" id="rightHandColumn">
+                        <div class="form-group">
+                            <label for="StateProvinceId">State: </label>
+                            <select class="form-control"
+                                    ng-class="{'error': addressCtrl.showEditAddressErrors && !addressCtrl.addressForm.stateProvinceId.$valid}"
+                                    name="stateProvinceId"
+                                    id="stateProvinceId"
+                                    ng-model="addressCtrl.editAddress.stateProvinceId"
+                                    ng-options="value.stateProvinceId as value.name for value in addressCtrl.statesAndProvinces"
+                                    required></select>
+                        </div>
+                        <!--Error Message:-->
+                        <div role="alert" class="help-inline error">
+                            <span class="error" ng-show="addressCtrl.showEditAddressErrors && addressCtrl.addressForm.stateProvinceId.$error.required">Select your state</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="CountryRegionCode">Country: </label>
+                            <input type="text"
+                                   class="form-control"
+                                   ng-class="{'error': addressCtrl.showEditAddressErrors && !addressCtrl.addressForm.countryRegionCode.$valid}"
+                                   placeholder="Country"
+                                   name="countryRegionCode"
+                                   id="countryRegionCode"
+                                   ng-model="addressCtrl.editAddress.countryRegionCode"
+                                   required>
+                        </div>
+                        <!--Error Message:-->
+                        <div role="alert" class="help-inline error">
+                            <span class="error" ng-show="addressCtrl.showEditAddressErrors && addressCtrl.addressForm.countryRegionCode.$error.required">Select your country</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="information-button-submit" type="submit" class="btn btn-lg btn-success">Save Address</button>
+                </div>
+            </form>
+        </div>
+    </div>

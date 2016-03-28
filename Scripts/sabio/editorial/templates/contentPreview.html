@@ -1,0 +1,79 @@
+﻿<div class="row">
+    <div class="col-md-12">
+        <a ng-href="#/list/live" class="btn btn-white m-r-5"><i class="fa fa-arrow-left"></i> Index</a>
+        <a ng-href="#/editorial/{{contentPreviewCtrl.editorialId}}/content" class="btn btn-white m-r-5"><i class="fa fa-cubes"></i> Content</a>
+        <a ng-href="#/editorial/{{contentPreviewCtrl.editorialId}}/attributes" class="btn btn-white m-r-5"><i class="fa fa-pencil"></i> Attributes</a>
+        <hr />
+    </div>
+
+</div>
+
+<div class="content-editor-main">
+
+    <!-- width="320" height="568" A.R. 1.775  border: 1px solid red;  <div style="min-width: 1140px;" width="100%"> </div>-->
+
+        <div class="container-fluid">
+            <div class="login-brand bg-inverse text-white">
+                Mobile Preview: 320px by 568px
+            </div>
+
+            <div class="editorial-preview-panel-mobile">
+                <div style="position: relative; z-index: 1;">
+                    <img src="../../../../images/iPhone-outline-Wireframe-Mockup-PSD.png" style="position: absolute; z-index: 2;" />
+                    <!--begin right content area-->
+                    <div class="content-area-preview-mobile" style="position: relative; top: 98px; left: 37px; z-index: 3; overflow: hidden;">
+                        <div>
+                            <!-- class="container-fluid" -->
+                            <perfect-scrollbar class="scroller-mobile" suppress-scroll-x="true" wheel-propogation="true" wheel-speed="10" min-scrollbar-length="20">
+                                <div class="row content-row"
+                                     ng-class="{'selected-row': contentPreviewCtrl.selectedRow===rows.rowId}"
+                                     ng-repeat="rows in contentPreviewCtrl.dndListCols track by $index">
+                                    <div ng-repeat="columns in rows.row track by columns.colId" class="content-column"
+                                         ng-class="'col-md-'+ columns.colWidth">
+                                        <ul dnd-list="columns.column"
+                                            class="dzDndList list-unstyled">
+                                            <li ng-repeat="item in columns.column"
+                                                ng-include="'/Scripts/sabio/editorial/templates/content/'+item.contentTypeId + '.html'">
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </perfect-scrollbar>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+
+        <!--   <img src="../../../../images/iPhone-outline-Wireframe-Mockup-PSD.jpg" width="320" height="568" />    -->
+        <!--begin right content area-->
+        <div class="container-fluid">
+            <div class="login-brand bg-inverse text-white">
+                Laptop Preview: 1024px wide
+            </div>
+
+            <div class="editorial-preview-panel">
+                <div class="content-area-preview-laptop">
+                    <div class="container-fluid">
+                        <div class="row content-row"
+                             ng-class="{'selected-row': contentPreviewCtrl.selectedRow===rows.rowId}"
+                             ng-repeat="rows in contentPreviewCtrl.dndListCols track by $index">
+                            <div ng-repeat="columns in rows.row track by columns.colId" class="content-column"
+                                 ng-class="'col-md-'+ columns.colWidth">
+                                <ul dnd-list="columns.column" class="dzDndList list-unstyled">
+                                    <li ng-repeat="item in columns.column" ng-include="'/Scripts/sabio/editorial/templates/content/'+item.contentTypeId + '.html'">
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+

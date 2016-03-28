@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+</head>
+<body>
+
+    <!--image thumbnail upload menu-->
+    <div id="thumbnailImage" class="col-lg-4 thumbnail hidden" align="center">
+        <h4>Thumbnail</h4>
+        <br />
+        <form name="uploadMedia" ng-submit="createCtr.addMedia()">
+            <div class="row">
+                <div class="dropzone row" dropzone="createCtr.myDropzone">
+                    <div class="row">
+                        <div id="displayMediaContainer" class="col-lg-4 col-lg-offset-4">
+                            <img id="displayMediaBox" ng-src="{{createCtr.copyImage}}" class="dz-message img-rounded img-responsive">
+
+                            <p id="displayMediaMessage">Drag and drop or click above</p>
+                            <!--<div class="dz-message"><span class="glyphicon glyphicon-picture" aria-hidden="true" style="font-size: 3em"></span><br /> "Drag an image here to upload, or click to select one."</div>-->
+                        </div>
+                        <div class="">
+                            <div class="fallback">
+                                <input type="file" name="file" multiple />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="btn btn-default" ng-click="createCtr.uploadImg=false; createCtr.editOrUpload=false; createCtr.getContentList()">Cancel</button>
+            <button type="submit" class="btn btn-primary">Upload</button>
+        </form>
+    </div>
+
+</body>
+</html>

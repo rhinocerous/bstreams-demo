@@ -1,0 +1,249 @@
+﻿<style>
+    #details {
+        background-color: rgba(213, 216, 218, 0.03);
+    }
+
+    .inlineForm {
+        display: inline-block;
+    }
+
+    .lineGraph {
+        width: 800px;
+        height: 250px;
+    }
+
+    .pieGraph {
+        width: 800px;
+        height: 200px;
+    }
+
+    .axisLabel {
+        position: absolute;
+        text-align: center;
+        font-size: 12px;
+    }
+
+    .xaxisLabel {
+        bottom: -15px;
+        left: 0;
+        right: 0;
+        font-weight: bold;
+    }
+
+    .yaxisLabel {
+        top: 50%;
+        left: -16px;
+        transform: rotate(-90deg);
+        -o-transform: rotate(-90deg);
+        -ms-transform: rotate(-90deg);
+        -moz-transform: rotate(-90deg);
+        -webkit-transform: rotate(-90deg);
+        transform-origin: 0 0;
+        -o-transform-origin: 0 0;
+        -ms-transform-origin: 0 0;
+        -moz-transform-origin: 0 0;
+        -webkit-transform-origin: 0 0;
+        font-weight: bold;
+    }
+</style>
+
+<!-- teamDetailsController - begin -->
+<div align="right">
+    <button type="button" class="btn btn-grey m-b-5 btn-sm" ng-click="teamDetailsBoard.back()">Back</button>
+</div>
+<br />
+<div class="panel">
+    <div id="details" class="panel-heading">
+        <h4>{{teamDetailsBoard.teamDetails.title}}</h4>
+    </div>
+    <div class="panel-body">
+        <!-- Media - begin -->
+        <div class="col-md-3" align="center">
+            <a href="{{teamDetailsBoard.mediaFullUrl}}"><img data-ng-src="{{teamDetailsBoard.mediaFullUrl}}" alt="{{teamDetailsBoard.mediaDescription}}" class="img-rounded img-responsive"></a>
+        </div>
+        <!-- Media - end -->
+        <div class="col-md-1">
+        </div>
+        <!-- Basic Information - begin -->
+        <div class="col-md-3">
+            <fieldset>
+                <legend>Basic Information</legend>
+                <h6>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Team Id: </strong>{{teamDetailsBoard.teamDetails.teamsId}}</h6><br />
+                <h6>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Description: </strong>{{teamDetailsBoard.teamDetails.description}}</h6><br />
+                <h6>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Date Created: </strong>{{teamDetailsBoard.teamDetails.created | date: 'shortDate'}}</h6><br />
+                <h6>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Subscription Type: </strong>{{teamDetailsBoard.type}}</h6><br />
+                <h6>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Active: </strong>{{teamDetailsBoard.teamDetails.active}}</h6>
+            </fieldset>
+        </div>
+        <!-- Basic Information - end -->
+        <div class="col-md-1">
+        </div>
+        <!-- Address - begin -->
+        <div class="col-md-4">
+            <fieldset>
+                <legend>Address</legend>
+                <h6>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Address 1: </strong>{{teamDetailsBoard.address1}}</h6><br />
+                <h6>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Address 2: </strong>{{teamDetailsBoard.address2}}</h6><br />
+                <h6>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>City: </strong>{{teamDetailsBoard.city}}</h6><br />
+                <h6>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>State: </strong>{{teamDetailsBoard.stateProvinceName}}</h6><br />
+                <h6>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Country: </strong>{{teamDetailsBoard.countryRegionCode}}</h6>
+            </fieldset>
+        </div>
+        <!-- Address - end -->
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-3">
+
+        </div>
+        <div class="col-md-9">
+            <fieldset>
+                <legend>Analytics</legend>
+                <form id="lineGraphForm" name="teamDetailsBoard.lineGraphForm" novalidate>
+                    <div class="form-group inlineForm">
+                        <h6><strong>Start Date: </strong></h6>
+                        <input type="date" class="form-control"
+                               id="lineGraphDateOne" placeholder="mm/dd/yyyy"
+                               ng-model="teamDetailsBoard.lineGraphDateOne"
+                               required>
+                    </div>
+                    <div class="form-group inlineForm">&nbsp; &nbsp;</div>
+                    <div class="form-group inlineForm">
+                        <h6><strong>End Date: </strong></h6>
+                        <input type="date" class="form-control"
+                               id="lineGraphDateTwo" placeholder="mm/dd/yyyy"
+                               ng-model="teamDetailsBoard.lineGraphDateTwo"
+                               required>
+                    </div>
+                    <div class="form-group inlineForm">&nbsp; &nbsp;</div>
+                    <div class="form-group inlineForm">
+                        <h6><strong>Average by: </strong></h6>
+                        <select chosen
+                                class="form-control"
+                                name="lineGraphPer"
+                                id="lineGraphPer"
+                                ng-model="teamDetailsBoard.lineGraphPer">
+                            <option value="day">day </option>
+                            <option value="week">week </option>
+                            <option value="month">month </option>
+                        </select>
+                    </div>
+                    <div class="form-group inlineForm">&nbsp; &nbsp;</div>
+                    <button type="button" class="btn btn-primary" ng-click="teamDetailsBoard.onClickLineGraphArrow()"><i class="fa fa-arrow-right"></i></button>
+                </form>
+                <div ng-show="teamDetailsBoard.lineGraphLoading">
+                    <p>Loading <i class="fa fa-spinner fa-spin"></i></p>
+                </div>
+                <div class="lineGraph">
+
+                </div>
+                <br />
+                <div>
+                    <h6><strong>Summary: </strong></h6>
+                    <h6>
+                        <strong>{{teamDetailsBoard.teamDetails.title}}</strong> spent, in total, about
+                        <strong>{{teamDetailsBoard.lineGraphTotalHoursResult}}</strong> hours on BeautyStreams between
+                        <strong>{{teamDetailsBoard.convertDateForCSharp(teamDetailsBoard.lineGraphDateOneResult)}}</strong> and
+                        <strong>{{teamDetailsBoard.convertDateForCSharp(teamDetailsBoard.lineGraphDateTwoResult)}}</strong>.
+                    </h6>
+                    <h6>
+                        <strong>{{teamDetailsBoard.teamDetails.title}}</strong> spent, on average, about
+                        <strong>{{teamDetailsBoard.lineGraphAverageHoursResult}}</strong> hours on BeautyStreams
+                        <strong>per {{teamDetailsBoard.lineGraphPerResult}}</strong> between
+                        <strong>{{teamDetailsBoard.convertDateForCSharp(teamDetailsBoard.lineGraphDateOneResult)}}</strong> and
+                        <strong>{{teamDetailsBoard.convertDateForCSharp(teamDetailsBoard.lineGraphDateTwoResult)}}</strong>.
+                    </h6>
+                </div>
+            </fieldset>
+            <div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-3">
+
+        </div>
+        <div class="col-md-9">
+            <fieldset>
+                <legend>Analytics by Page</legend>
+                <form id="pieGraphForm" name="teamDetailsBoard.pieGraphForm" novalidate>
+                    <div class="form-group inlineForm">
+                        <h6><strong>Start Date: </strong></h6>
+                        <input type="date" class="form-control"
+                               id="pieGraphDateOne" placeholder="mm/dd/yyyy"
+                               ng-model="teamDetailsBoard.pieGraphDateOne"
+                               required>
+                    </div>
+                    <div class="form-group inlineForm">&nbsp; &nbsp;</div>
+                    <div class="form-group inlineForm">
+                        <h6><strong>End Date: </strong></h6>
+                        <input type="date" class="form-control"
+                               id="pieGraphDateTwo" placeholder="mm/dd/yyyy"
+                               ng-model="teamDetailsBoard.pieGraphDateTwo"
+                               required>
+                    </div>
+                    <div class="form-group inlineForm">&nbsp; &nbsp;</div>
+                    <div class="form-group inlineForm">
+                        <h6><strong>Controller And Action: </strong></h6>
+                        <select chosen
+                                class="form-control"
+                                name="pieGraphControllerAndActionSelect"
+                                id="pieGraphControllerAndActionSelect"
+                                ng-model="teamDetailsBoard.pieGraphSelectedControllerAndAction">
+                            <option ng-repeat="controllerAndAction in teamDetailsBoard.controllerAndAction" value="{{controllerAndAction}}">{{teamDetailsBoard.matchFormat(controllerAndAction)}}  &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;</option>
+                        </select>
+                    </div>
+                    <div class="form-group inlineForm">&nbsp; &nbsp;</div>
+                    <div class="form-group inlineForm">
+                        <h6><strong>Average by: </strong></h6>
+                        <select chosen
+                                class="form-control"
+                                name="pieGraphPer"
+                                id="pieGraphPer"
+                                ng-model="teamDetailsBoard.pieGraphPer">
+                            <option value="day">day </option>
+                            <option value="week">week </option>
+                            <option value="month">month </option>
+                        </select>
+                    </div>
+                    <div class="form-group inlineForm">&nbsp; &nbsp;</div>
+                    <button type="button" class="btn btn-primary" ng-click="teamDetailsBoard.onClickPieGraphArrow()"><i class="fa fa-arrow-right"></i></button>
+                </form>
+                <div ng-show="teamDetailsBoard.pieGraphLoading">
+                    <p>Loading <i class="fa fa-spinner fa-spin"></i></p>
+                </div>
+                <div class="pieGraph">
+
+                </div>
+                <br />
+                <div>
+                    <h6><strong>Summary: </strong></h6>
+                    <h6>
+                        <strong>{{teamDetailsBoard.teamDetails.title}}</strong> spent, in total, about
+                        <strong>{{teamDetailsBoard.pieGraphTotalHours}}</strong> hours on
+                        <strong>{{teamDetailsBoard.pieGraphSelectedControllerAndActionResult}}</strong> between
+                        <strong>{{teamDetailsBoard.convertDateForCSharp(teamDetailsBoard.pieGraphDateOneResult)}}</strong> and
+                        <strong>{{teamDetailsBoard.convertDateForCSharp(teamDetailsBoard.pieGraphDateTwoResult)}}</strong>.
+                    </h6>
+                    <h6>
+                        <strong>{{teamDetailsBoard.teamDetails.title}}</strong> spent, on average, about
+                        <strong>{{teamDetailsBoard.pieGraphAverageHours}}</strong> hours on
+                        <strong>{{teamDetailsBoard.pieGraphSelectedControllerAndActionResult}}</strong>
+                        <strong>per {{teamDetailsBoard.pieGraphPerResult}}</strong> between
+                        <strong>{{teamDetailsBoard.convertDateForCSharp(teamDetailsBoard.pieGraphDateOneResult)}}</strong> and
+                        <strong>{{teamDetailsBoard.convertDateForCSharp(teamDetailsBoard.pieGraphDateTwoResult)}}</strong>.
+                    </h6>
+                    <h6>
+                        <strong>{{teamDetailsBoard.teamDetails.title}}</strong> spent about
+                        <strong>{{teamDetailsBoard.pieGraphPercentage}}%</strong> of the time on
+                        <strong>{{teamDetailsBoard.pieGraphSelectedControllerAndActionResult}}</strong> between
+                        <strong>{{teamDetailsBoard.convertDateForCSharp(teamDetailsBoard.pieGraphDateOneResult)}}</strong> and
+                        <strong>{{teamDetailsBoard.convertDateForCSharp(teamDetailsBoard.pieGraphDateTwoResult)}}</strong>.
+                    </h6>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+</div>
+<!-- teamDetailsController - end -->

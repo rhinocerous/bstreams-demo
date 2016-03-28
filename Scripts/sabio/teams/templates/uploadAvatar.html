@@ -1,0 +1,57 @@
+﻿<style>
+    #mediaForm {
+        width: 100%;
+        height: 200px;
+        border: 2px dotted lightseagreen;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        background-color: white;
+        text-align: center;
+        padding: 20px;
+    }
+
+    .dz-message {
+        font-size: medium;
+        color: grey;
+    }
+
+    #displayMediaContainer {
+        text-align: center;
+    }
+
+    #displayMediaBox {
+        width: 100%;
+    }
+</style>
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="login-brand bg-inverse text-white">
+                <img src="/images/logo-white.png" height="36" class="pull-right" alt="" /> Upload Avatar
+            </div>
+        </div>
+        <div class="modal-body">
+            <div id="displayMediaContainer">
+                <img id="displayMediaBox" src="{{upload.mediaFullUrl}}" alt="{{upload.mediaDescription}}" class="media-object img-rounded img-responsive">
+                <br />
+                <p>{{upload.mediaMsg}}</p>
+            </div> 
+            <!--End of Media Display-->
+
+            <!-- Add Media Container -->
+            <div id="addMediaContainer">
+                <!--NG-DROPZONE! WOO!--><!--does not have to be a form element(seems to work with any element)-->
+                <form id="mediaForm" dropzone="upload.myDropzone" class="dropzone">
+                    <div class="dz-message"><span id="dz-message-span" class="glyphicon glyphicon-picture" aria-hidden="true" style="font-size: 3em"></span><br /> "Drag an image here to upload, or click to select one."</div>
+                    <div class="fallback">
+                        <input type="file" name="file" multiple />
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!--Submit Button:-->
+        <div class="modal-footer">
+            <button id="button-submitMedia" type="button" class="btn btn-lg btn-success" ng-click="upload.submitTeamsMedia()">Submit Image</button>
+        </div>
+    </div>
+
+

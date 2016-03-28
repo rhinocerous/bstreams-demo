@@ -1,0 +1,130 @@
+﻿<!--This page will contain overlapping imageBank + mediaLibrary panels.
+    Current overlapping panels: Folder Details, Video Details, media selection panel -->
+
+<!-- begin folder details panel -->
+<div class="panel panel-inverse" ng-show="TC.displayFolderDetails">
+    <div class="panel-heading">
+        <div class="panel-title pull-left">
+            <h4 class="text-white">Folder Details</h4>
+        </div>
+        <div class="panel-heading-btn pull-right">
+            <a ng-click="TC.clickToDownloadFolder()" ng-show="TC.showMedLibHeading" class="btn btn-sm btn-circle btn-success ion-bigger"><i class="ion-ios-cloud-download-outline" uib-tooltip="Download Zip Folder"></i></a>
+            <a ng-click="TC.clickToEdit()" ng-show="TC.showMedLibHeading" class="btn btn-sm btn-circle btn-primary ion-bigger"><i class="ion-edit" uib-tooltip="Edit Folder"></i></a>
+            <a ng-click="TC.onClickDelete()" ng-show="TC.showMedLibHeading" class="btn btn-sm btn-circle btn-danger ion-bigger"><i class="ion-trash-a" uib-tooltip="Delete Folder"></i></a>
+            <a ng-click="TC.detailsFolderCancel()" class="btn btn-sm ion-close btn-circle btn-grey ion-bigger cmdCancel"></a>
+        </div>
+        <div class="panel-heading"></div>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="ion-folder text-inverse-light text-center" style="font-size: 99px; ">
+                </div>
+            </div>
+            <div class="col-md-8 ">
+                <div class="row">
+                    <form class="form-horizontal" id="folderDetails">
+                        <label class="control-label col-sm-4">Id</label>
+                        <div class="col-md-7">
+                            <p class="form-control-static" id="folderId">{{TC.fDetails.fid}}</p>
+                        </div>
+                        <label class="control-label col-sm-4">Folder Name</label>
+                        <div class="col-md-7">
+                            <p class="form-control-static" id="folderName">{{TC.fDetails.folderName}}</p>
+                        </div>
+                        <label class="control-label col-sm-4">Created</label>
+                        <div class="col-md-7">
+                            <p class="form-control-static" id="folderCreated">{{TC.fDetails.created}}</p>
+                        </div>
+                        <label class="control-label col-sm-4">By</label>
+                        <div class="col-md-7">
+                            <p class="form-control-static" id="folderUsername">{{TC.fDetails.username}}</p>
+                        </div>
+                        <br />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end folder details panel-->
+
+<!-- begin - video details panel -->
+<div class="panel panel-primary" ng-show="TC.displayVideoDetails">
+    <div class="panel-heading">
+        <div class="panel-title pull-left">
+            <h4 class="text-white">Video Details</h4>
+        </div>
+        <div class="panel-heading-btn pull-right">
+            <a ng-click="TC.detailsVideoCancel()" class="btn btn-sm ion-close btn-circle btn-grey ion-bigger"></a>
+        </div>
+        <div class="panel-heading"></div>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="ion-social-youtube text-primary-light text-center" style="font-size: 150px;">
+                </div>
+                <p class="text-center">***replace with video player</p>
+            </div>
+        </div>
+        <div class="row ">
+            <div class="col-md-12">
+                <div class="row ">
+                    <div class="form-horizontal" id="videoDetails">
+                        <label class="control-label col-sm-5">Id</label>
+                        <div class="col-md-7">
+                            <p class="form-control-static">{{TC.videoId}}</p>
+                        </div>
+                        <label class="control-label col-sm-5">Filename</label>
+                        <div class="col-md-7">
+                            <p class="form-control-static">{{TC.videoFileName}}</p>
+                        </div>
+                        <label class="control-label col-sm-5">Created</label>
+                        <div class="col-md-7">
+                            <p class="form-control-static">{{TC.videoCreated}}</p>
+                        </div>
+                        <label class="control-label col-sm-5">By</label>
+                        <div class="col-md-7">
+                            <p class="form-control-static">{{TC.videoUsername}}</p>
+                        </div>
+                        <br />
+                        <div class="button-group pull-right" ng-show="TC.displayVideoDetailsBtn">
+                            <button type="button" class="btn btn-danger cmdDeleteDetails">Delete</button>
+                            <button type="button" class="btn btn-primary" id="cmdVideoDetailsEdit">Edit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--end - video details panel-->
+
+<!--begin - media selection panel-->
+<div class="panel panel-inverse" id="mediaSelectionPanel" ng-show="TC.showMedSelPanel">
+    <div class="panel-heading">
+        <div class="panel-title pull-left">
+            <h4 class="text-white">Media Selection</h4>
+        </div>
+        <!-- media selection panel heading for imageBank -->
+        <div class="panel-heading-btn pull-right" ng-show="TC.showImageBankHeading">
+            <a ng-click="TC.onImageTaggingClick()" class="btn btn-sm btn-info"><i class="fa fa-tags"></i> Image Tagging</a>
+            <a ng-click="TC.onEditImageDetailsClick()" class="btn btn-sm btn-success"><i class="ion-edit"></i> Edit</a>
+        </div>
+        <!--End of imgBank panel heading-->
+        <!--media selection panel heading for medLib-->
+        <!-- Panel Heading for mediaLib -->
+        <div class="panel-heading-btn pull-right" ng-show="TC.showMedLibHeading">
+            <a ng-click="TC.clickToDownloadZip()" class="btn btn-sm btn-white"><i class="fa fa-file-archive-o"></i> Create Zip Folder</a> 
+        </div>
+        <!--End of media selection panel heading-->
+        <div class="panel-heading"></div>
+    </div>
+    <div class="widget-body">
+        <ul class="clearfix">
+            <li class="mediaList" style="background-image: url({{img.mediaThumbnailFullUrl[3]}})" ng-repeat="img in TC.selectedMediaObjects track by img.mediaId"></li>
+        </ul>
+    </div>
+</div>
+<!-- end - media selection panel-->

@@ -1,0 +1,249 @@
+﻿<style type="text/css">
+    /*disabling the native calendar from input=date*/
+    input::-webkit-calendar-picker-indicator {
+        display: none;
+    }
+
+    input[type="date"]::-webkit-input-placeholder {
+        visibility: hidden !important;
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-12">
+        <form name="attributesCtrl.editorialForm" ng-submit="attributesCtrl.submitEditorial()" novalidate>
+            <div class="panel panel-inverse">
+                <div class="panel-heading">                    
+                    <h2 class="panel-title">{{attributesCtrl.panelHeader}}</h2>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a ng-href="#/list/live" class="btn btn-white m-r-5"><i class="fa fa-arrow-left"></i> Index</a>
+                            <a ng-href="#/editorial/{{attributesCtrl.$editorialId}}/content" ng-if="attributesCtrl.$editorialId" class="btn btn-white m-r-5"><i class="fa fa-cubes"></i> Content</a>
+                            <a ng-href="#/editorial/{{attributesCtrl.$editorialId}}/content/preview" ng-if="attributesCtrl.$editorialId" class="btn btn-white m-r-5"><i class="fa fa-eye"></i> Preview</a>
+                            <hr/>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="title" class="control-label">Title</label>
+                                <input type="text"
+                                       class="form-control"
+                                       id="title"
+                                       name="title"
+                                       ng-model="attributesCtrl.editorial.title"
+                                       ng-class="{'error': attributesCtrl.showEditorialErrors && !attributesCtrl.editorial.title.$valid}"
+                                       required>
+                                <div role="alert" class="help-inline error">
+                                    <span class="error" ng-show="attributesCtrl.showEditorialErrors && attributesCtrl.editorialForm.title.$error.required">Title is required</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="liveDate" class="control-label">Live Date</label>
+                                <p class="input-group">
+                                    <input type="date"
+                                           class="form-control"
+                                           id="liveDate"
+                                           name="liveDate"  
+                                                                         
+                                           uib-datepicker-popup="mediumDate"
+                                           is-open="attributesCtrl.datePickerIsOpen"
+                                           ng-focus="attributesCtrl.datePickerOpen($event)"
+                                           ng-model="attributesCtrl.editorial.liveDate"
+                                           ng-model-options="{timezone:'UTC'}"
+                                           ng-class="{'error': attributesCtrl.showEditorialErrors && !attributesCtrl.editorial.liveDate.$valid}"
+                                           datepicker-options="attributesCtrl.dateOptions"
+                                           close-text="Close">
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="attributesCtrl.datePickerOpen($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>
+                                </p>
+                                <div role="alert" class="help-inline error">
+                                    <span class="error" ng-show="attributesCtrl.showEditorialErrors && attributesCtrl.editorialForm.liveDate.$error.date">Not a valid date</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="editor" class="control-label">Editor</label>
+                                <select chosen
+                                        class="form-control"
+                                        id="editor"
+                                        name="editor"
+                                        multiple
+                                        data-placeholder="Select editor(s)"
+                                        ng-model="attributesCtrl.editorial.editor"
+                                        ng-options="opt.userID as opt.firstName + ' ' + opt.lastName for opt in attributesCtrl.users"></select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="name" class="control-label">Front Title</label>
+                                <input type="text"
+                                       class="form-control"
+                                       id="name"
+                                       name="name"
+                                       ng-model="attributesCtrl.editorial.name"
+                                       ng-class="{'error': attributesCtrl.showEditorialErrors && !attributesCtrl.editorial.name.$valid}">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+
+                            <div class="form-group">
+                                <label for="status" class="control-label">Status</label>
+                                <select class="form-control"
+                                        id="status"
+                                        name="status" 
+                                        ng-options="key as value for (key, value) in attributesCtrl.statusOptions"                                        
+                                        ng-model="attributesCtrl.editorial.status">
+                                                             
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="category" class="control-label">Category</label>
+                                <select class="form-control"
+                                        id="category"
+                                        name="category"
+                                        ng-model="attributesCtrl.editorial.category">
+                                    <option value="defaultCategory" selected="selected">Select a product category...</option>
+                                    <option value="runway">Runway</option>
+                                    <option value="collection">Collection</option>
+                                    <option value="cosmetics">Cosmetics</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="designer" class="control-label">Designer</label>
+                                <select chosen
+                                        class="form-control"
+                                        id="designer"
+                                        name="designer"
+                                        multiple
+                                        data-placeholder="Select designer(s)"
+                                        ng-model="attributesCtrl.editorial.designer"
+                                        ng-options="opt.userID as opt.firstName + ' ' + opt.lastName for opt in attributesCtrl.users"></select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="classification" class="control-label">Blurb Text</label>
+                                <input type="text"
+                                       class="form-control"
+                                       id="classification"
+                                       name="classification"
+                                       ng-model="attributesCtrl.editorial.classification"
+                                       ng-class="{'error': attributesCtrl.showEditorialErrors && !attributesCtrl.editorial.classification.$valid}">
+                            </div>
+
+
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <div class="presentationOptions">
+                                <div class="checkbox">
+                                    <label>
+                                        <input class="presentationCheckbox"
+                                               type="checkbox"
+                                               id="highlight"
+                                               name="highlight"
+                                               value="false"
+                                               ng-model="attributesCtrl.editorial.presentationOptions.highlight"
+                                               ng-true-value="true"
+                                               ng-false-value="false">
+                                        Highlight
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input class="presentationCheckbox"
+                                               type="checkbox"
+                                               id="dropDownMenu"
+                                               name="dropDownMenu"
+                                               value="false"
+                                               ng-model="attributesCtrl.editorial.presentationOptions.dropDownMenu"
+                                               ng-true-value="true"
+                                               ng-false-value="false">
+                                        Drop down menu
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input class="presentationCheckbox"
+                                               type="checkbox"
+                                               id="moreValidImageButton"
+                                               name="moreValidImageButton"
+                                               value="false"
+                                               ng-model="attributesCtrl.editorial.presentationOptions.moreValidImageButton"
+                                               ng-true-value="true"
+                                               ng-false-value="false">
+                                        "More Valid Image" button
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input class="presentationCheckbox"
+                                               type="checkbox"
+                                               id="downloadButton"
+                                               name="downloadButton"
+                                               value="false"
+                                               ng-model="attributesCtrl.editorial.presentationOptions.downloadButton"
+                                               ng-true-value="true"
+                                               ng-false-value="false">
+                                        "Download" button
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input class="presentationCheckbox"
+                                               type="checkbox"
+                                               id="printButton"
+                                               name="printButton"
+                                               value="false"
+                                               ng-model="attributesCtrl.editorial.presentationOptions.printButton"
+                                               ng-true-value="true"
+                                               ng-false-value="false">
+                                        "Print" button
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input class="presentationCheckbox"
+                                               type="checkbox"
+                                               id="favoriteButton"
+                                               name="favoriteButton"
+                                               value="false"
+                                               ng-model="attributesCtrl.editorial.presentationOptions.favoriteButton"
+                                               ng-true-value="true"
+                                               ng-false-value="false">
+                                        "Favorite" button
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+
+
+
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+                <div class="panel-footer text-right">
+                    <input type="submit" class="btn btn-success" value="Submit Editorial" />                    
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
